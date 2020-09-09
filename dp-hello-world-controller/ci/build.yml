@@ -9,7 +9,7 @@ image_resource:
     tag: 1.15.1
 
 inputs:
-  - name: dp-hello-world-contoller
+  - name: dp-hello-world-controller
 
 outputs:
   - name: build
@@ -18,4 +18,4 @@ caches:
   - path: go/
 
 run:
-  path: dp-hello-world-contoller/ci/scripts/build.sh
+  path: dp-hello-world-controller/ci/scripts/build.sh

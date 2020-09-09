@@ -1,4 +1,4 @@
-module github.com/ONSdigital/dp-hello-world-contoller
+module github.com/ONSdigital/dp-hello-world-controller
 
 go 1.13
 

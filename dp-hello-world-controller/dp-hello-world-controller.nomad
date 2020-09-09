@@ -1,4 +1,4 @@
-job "dp-hello-world-contoller" {
+job "dp-hello-world-controller" {
   datacenters = ["eu-west-1"]
   region      = "eu"
   type        = "service"
@@ -26,24 +26,24 @@ job "dp-hello-world-contoller" {
       mode     = "delay"
     }
 
-    task "dp-hello-world-contoller-web" {
+    task "dp-hello-world-controller-web" {
       driver = "docker"
 
       artifact {
-        source = "s3::https://s3-eu-west-1.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-hello-world-contoller/{{PROFILE}}/{{RELEASE}}.tar.gz"
+        source = "s3::https://s3-eu-west-1.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-hello-world-controller/{{PROFILE}}/{{RELEASE}}.tar.gz"
       }
 
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["./dp-hello-world-contoller"]
+        args = ["./dp-hello-world-controller"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
       }
 
       service {
-        name = "dp-hello-world-contoller"
+        name = "dp-hello-world-controller"
         port = "http"
         tags = ["web"]
 
@@ -70,7 +70,7 @@ job "dp-hello-world-contoller" {
       }
 
       vault {
-        policies = ["dp-hello-world-contoller-web"]
+        policies = ["dp-hello-world-controller-web"]
       }
     }
   }
@@ -90,23 +90,23 @@ job "dp-hello-world-contoller" {
       mode     = "delay"
     }
 
-    task "dp-hello-world-contoller-publishing" {
+    task "dp-hello-world-controller-publishing" {
       driver = "docker"
 
       artifact {
-        source = "s3::https://s3-eu-west-1.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-hello-world-contoller/{{PROFILE}}/{{RELEASE}}.tar.gz"
+        source = "s3::https://s3-eu-west-1.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-hello-world-controller/{{PROFILE}}/{{RELEASE}}.tar.gz"
       }
 
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["./dp-hello-world-contoller"]
+        args = ["./dp-hello-world-controller"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
       }
 
       service {
-        name = "dp-hello-world-contoller"
+        name = "dp-hello-world-controller"
         port = "http"
         tags = ["publishing"]
 
@@ -133,7 +133,7 @@ job "dp-hello-world-contoller" {
       }
 
       vault {
-        policies = ["dp-hello-world-contoller-publishing"]
+        policies = ["dp-hello-world-controller-publishing"]
       }
     }
   }

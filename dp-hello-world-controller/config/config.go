@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Config represents service configuration for dp-hello-world-contoller
+// Config represents service configuration for dp-hello-world-controller
 type Config struct {
 	BindAddr                   string        `envconfig:"BIND_ADDR"`
 	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`

@@ -2,7 +2,7 @@ package mapper
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-hello-world-contoller/config"
+	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"

@@ -9,10 +9,10 @@ image_resource:
     tag: 1.15.1
 
 inputs:
-  - name: dp-hello-world-contoller
+  - name: dp-hello-world-controller
 
 caches:
   - path: go/
 
 run:
-  path: dp-hello-world-contoller/ci/scripts/unit.sh
+  path: dp-hello-world-controller/ci/scripts/unit.sh

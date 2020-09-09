@@ -8,12 +8,12 @@ LDFLAGS = -ldflags "-X main.BuildTime=$(BUILD_TIME) -X main.GitCommit=$(GIT_COMM
 
 .PHONY: build
 build:
-	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-contoller
+	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-controller
 
 .PHONY: debug
 debug:
-	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-contoller
-	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-hello-world-contoller
+	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-controller
+	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-hello-world-controller
 
 .PHONY: test
 test:

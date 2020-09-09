@@ -8,8 +8,8 @@ import (
 
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
 
-	"github.com/ONSdigital/dp-hello-world-contoller/config"
-	"github.com/ONSdigital/dp-hello-world-contoller/routes"
+	"github.com/ONSdigital/dp-hello-world-controller/config"
+	"github.com/ONSdigital/dp-hello-world-controller/routes"
 	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
@@ -25,7 +25,7 @@ var (
 )
 
 func main() {
-	log.Namespace = "dp-hello-world-contoller"
+	log.Namespace = "dp-hello-world-controller"
 	cfg, err := config.Get()
 	ctx := context.Background()
 	if err != nil {

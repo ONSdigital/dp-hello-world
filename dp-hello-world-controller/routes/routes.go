@@ -3,8 +3,8 @@ package routes
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-hello-world-contoller/config"
-	"github.com/ONSdigital/dp-hello-world-contoller/handlers"
+	"github.com/ONSdigital/dp-hello-world-controller/config"
+	"github.com/ONSdigital/dp-hello-world-controller/handlers"
 
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/log.go/log"

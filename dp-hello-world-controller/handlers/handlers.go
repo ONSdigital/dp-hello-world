@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/ONSdigital/dp-hello-world-contoller/config"
-	"github.com/ONSdigital/dp-hello-world-contoller/mapper"
+	"github.com/ONSdigital/dp-hello-world-controller/config"
+	"github.com/ONSdigital/dp-hello-world-controller/mapper"
 	"github.com/ONSdigital/log.go/log"
 	"net/http"
 )

@@ -1,7 +1,0 @@
-FROM onsdigital/dp-concourse-tools-ubuntu
-
-WORKDIR /app/
-
-COPY dp-hello-world-contoller .
-
-CMD ./dp-hello-world-contoller

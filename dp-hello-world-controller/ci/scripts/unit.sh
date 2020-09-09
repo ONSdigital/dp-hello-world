@@ -1,5 +1,5 @@
 #!/bin/bash -eux
 
-pushd dp-hello-world-contoller
+pushd dp-hello-world-controller
   make test
 popd

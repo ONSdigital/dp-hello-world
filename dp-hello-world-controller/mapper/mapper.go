@@ -3,7 +3,7 @@ package mapper
 import (
 	"context"
 	"fmt"
-	"github.com/ONSdigital/dp-hello-world-contoller/config"
+	"github.com/ONSdigital/dp-hello-world-controller/config"
 )
 
 type HelloModel struct {
