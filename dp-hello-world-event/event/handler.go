@@ -20,7 +20,7 @@ func (h *HelloCalledHandler) Handle(ctx context.Context, event *HelloCalled) (er
 	//TODO Replace with actual event handler logic…
 	greeting := fmt.Sprintf("Hello, %s!", event.RecipientName)
 	logData["greeting"] = greeting
-	log.Event(ctx, "hello world exmample handler called successfully", log.INFO, logData)
+	log.Event(ctx, "hello world example handler called successfully", log.INFO, logData)
 
 	log.Event(ctx, "event successfully handled", log.INFO, logData)
 	return nil

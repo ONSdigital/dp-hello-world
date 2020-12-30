@@ -6,17 +6,13 @@ import (
 	"testing"
 )
 
-func TestImageUploadedHandler_Handle(t *testing.T) {
+func TestHelloCalledHandler_Handle(t *testing.T) {
 
-	Convey("Given S3 and Vault client mocks", t, func() {
+	Convey("Given a successful event handler, when Handle is triggered", t, func() {
 
-		Convey("And a successful event handler, when Handle is triggered", func() {
-
-			eventHandler := event.HelloCalledHandler{}
-			err := eventHandler.Handle(testCtx, &testEvent)
-			So(err, ShouldBeNil)
-		})
-
+		eventHandler := event.HelloCalledHandler{}
+		err := eventHandler.Handle(testCtx, &testEvent)
+		So(err, ShouldBeNil)
 	})
 
 }

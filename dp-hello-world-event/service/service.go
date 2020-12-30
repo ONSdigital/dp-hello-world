@@ -7,17 +7,18 @@ import (
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
+	"time"
 )
 
 // Service contains all the configs, server and clients to run the event handler service
 type Service struct {
-	config        *config.Config
-	server        HTTPServer
-	router        *mux.Router
-	serviceList   *ExternalServiceList
-	healthCheck   HealthChecker
-	consumer      KafkaConsumer
-	eventConsumer EventConsumer
+	server          HTTPServer
+	router          *mux.Router
+	serviceList     *ExternalServiceList
+	healthCheck     HealthChecker
+	consumer        KafkaConsumer
+	eventConsumer   EventConsumer
+	shutdownTimeout time.Duration
 }
 
 // Run the service
@@ -68,23 +69,23 @@ func Run(ctx context.Context, serviceList *ExternalServiceList, buildTime, gitCo
 	}()
 
 	return &Service{
-		config:        cfg,
-		server:        s,
-		router:        r,
-		serviceList:   serviceList,
-		healthCheck:   hc,
-		consumer:      consumer,
-		eventConsumer: eventConsumer,
+		server:          s,
+		router:          r,
+		serviceList:     serviceList,
+		healthCheck:     hc,
+		consumer:        consumer,
+		eventConsumer:   eventConsumer,
+		shutdownTimeout: cfg.GracefulShutdownTimeout,
 	}, nil
 }
 
 // Close gracefully shuts the service down in the required order, with timeout
 func (svc *Service) Close(ctx context.Context) error {
-	timeout := svc.config.GracefulShutdownTimeout
+	timeout := svc.shutdownTimeout
 	log.Event(ctx, "commencing graceful shutdown", log.Data{"graceful_shutdown_timeout": timeout}, log.INFO)
 	ctx, cancel := context.WithTimeout(ctx, timeout)
 
-	// track shutown gracefully closes up
+	// track shutdown gracefully closes up
 	var gracefulShutdown bool
 
 	go func() {
@@ -99,7 +100,10 @@ func (svc *Service) Close(ctx context.Context) error {
 		// If kafka consumer exists, stop listening to it. (Will close later)
 		if svc.serviceList.KafkaConsumer {
 			log.Event(ctx, "stopping kafka consumer listener", log.INFO)
-			svc.consumer.StopListeningToConsumer(ctx)
+			if err := svc.consumer.StopListeningToConsumer(ctx); err != nil {
+				log.Event(ctx, "error stopping kafka consumer listener", log.ERROR, log.Error(err))
+				hasShutdownError = true
+			}
 			log.Event(ctx, "stopped kafka consumer listener", log.INFO)
 		}
 
@@ -118,7 +122,10 @@ func (svc *Service) Close(ctx context.Context) error {
 		// If kafka consumer exists, close it.
 		if svc.serviceList.KafkaConsumer {
 			log.Event(ctx, "closing kafka consumer", log.INFO)
-			svc.consumer.Close(ctx)
+			if err := svc.consumer.Close(ctx); err != nil {
+				log.Event(ctx, "error closing kafka consumer", log.ERROR, log.Error(err))
+				hasShutdownError = true
+			}
 			log.Event(ctx, "closed kafka consumer", log.INFO)
 		}
 

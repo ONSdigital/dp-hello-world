@@ -6,7 +6,6 @@ import (
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-event/config"
-	"github.com/ONSdigital/dp-hello-world-event/event"
 	kafka "github.com/ONSdigital/dp-kafka/v2"
 )
 
@@ -46,6 +45,5 @@ type KafkaConsumer interface {
 
 // EventConsumer defines the required methods from event Consumer
 type EventConsumer interface {
-	Consume(ctx context.Context, messageConsumer event.MessageConsumer, handler event.Handler)
 	Close(ctx context.Context) (err error)
 }
