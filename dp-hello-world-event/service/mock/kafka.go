@@ -7,7 +7,7 @@ import (
 	"context"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-event/service"
-	"github.com/ONSdigital/dp-kafka"
+	"github.com/ONSdigital/dp-kafka/v2"
 	"sync"
 )
 
@@ -30,9 +30,6 @@ var _ service.KafkaConsumer = &KafkaConsumerMock{}
 //             CloseFunc: func(ctx context.Context) error {
 // 	               panic("mock out the Close method")
 //             },
-//             ReleaseFunc: func()  {
-// 	               panic("mock out the Release method")
-//             },
 //             StopListeningToConsumerFunc: func(ctx context.Context) error {
 // 	               panic("mock out the StopListeningToConsumer method")
 //             },
@@ -51,9 +48,6 @@ type KafkaConsumerMock struct {
 
 	// CloseFunc mocks the Close method.
 	CloseFunc func(ctx context.Context) error
-
-	// ReleaseFunc mocks the Release method.
-	ReleaseFunc func()
 
 	// StopListeningToConsumerFunc mocks the StopListeningToConsumer method.
 	StopListeningToConsumerFunc func(ctx context.Context) error
@@ -75,9 +69,6 @@ type KafkaConsumerMock struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
 		}
-		// Release holds details about calls to the Release method.
-		Release []struct {
-		}
 		// StopListeningToConsumer holds details about calls to the StopListeningToConsumer method.
 		StopListeningToConsumer []struct {
 			// Ctx is the ctx argument value.
@@ -87,7 +78,6 @@ type KafkaConsumerMock struct {
 	lockChannels                sync.RWMutex
 	lockChecker                 sync.RWMutex
 	lockClose                   sync.RWMutex
-	lockRelease                 sync.RWMutex
 	lockStopListeningToConsumer sync.RWMutex
 }
 
@@ -180,32 +170,6 @@ func (mock *KafkaConsumerMock) CloseCalls() []struct {
 	mock.lockClose.RLock()
 	calls = mock.calls.Close
 	mock.lockClose.RUnlock()
-	return calls
-}
-
-// Release calls ReleaseFunc.
-func (mock *KafkaConsumerMock) Release() {
-	if mock.ReleaseFunc == nil {
-		panic("KafkaConsumerMock.ReleaseFunc: method is nil but KafkaConsumer.Release was just called")
-	}
-	callInfo := struct {
-	}{}
-	mock.lockRelease.Lock()
-	mock.calls.Release = append(mock.calls.Release, callInfo)
-	mock.lockRelease.Unlock()
-	mock.ReleaseFunc()
-}
-
-// ReleaseCalls gets all the calls that were made to Release.
-// Check the length with:
-//     len(mockedKafkaConsumer.ReleaseCalls())
-func (mock *KafkaConsumerMock) ReleaseCalls() []struct {
-} {
-	var calls []struct {
-	}
-	mock.lockRelease.RLock()
-	calls = mock.calls.Release
-	mock.lockRelease.RUnlock()
 	return calls
 }
 

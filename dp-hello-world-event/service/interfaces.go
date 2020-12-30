@@ -7,7 +7,7 @@ import (
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/event"
-	kafka "github.com/ONSdigital/dp-kafka"
+	kafka "github.com/ONSdigital/dp-kafka/v2"
 )
 
 //go:generate moq -out mock/initialiser.go -pkg mock . Initialiser
@@ -42,7 +42,6 @@ type KafkaConsumer interface {
 	Close(ctx context.Context) (err error)
 	Checker(ctx context.Context, state *healthcheck.CheckState) error
 	Channels() *kafka.ConsumerGroupChannels
-	Release()
 }
 
 // EventConsumer defines the required methods from event Consumer

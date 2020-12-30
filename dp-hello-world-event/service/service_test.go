@@ -11,7 +11,7 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/service"
 	serviceMock "github.com/ONSdigital/dp-hello-world-event/service/mock"
-	kafka "github.com/ONSdigital/dp-kafka"
+	kafka "github.com/ONSdigital/dp-kafka/v2"
 	"github.com/pkg/errors"
 	. "github.com/smartystreets/goconvey/convey"
 )

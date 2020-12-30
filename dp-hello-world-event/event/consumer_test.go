@@ -9,8 +9,8 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/event"
 	"github.com/ONSdigital/dp-hello-world-event/event/mock"
 	"github.com/ONSdigital/dp-hello-world-event/schema"
-	kafka "github.com/ONSdigital/dp-kafka"
-	"github.com/ONSdigital/dp-kafka/kafkatest"
+	kafka "github.com/ONSdigital/dp-kafka/v2"
+	"github.com/ONSdigital/dp-kafka/v2/kafkatest"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -34,11 +34,9 @@ func TestConsume(t *testing.T) {
 
 	Convey("Given an event consumer", t, func() {
 
-		kafkaConsumerWg := &sync.WaitGroup{}
 		cgChannels := &kafka.ConsumerGroupChannels{Upstream: make(chan kafka.Message, 2)}
 		mockConsumer := &kafkatest.IConsumerGroupMock{
 			ChannelsFunc: func() *kafka.ConsumerGroupChannels { return cgChannels },
-			ReleaseFunc:  func() { kafkaConsumerWg.Done() },
 		}
 
 		handlerWg := &sync.WaitGroup{}
@@ -58,7 +56,6 @@ func TestConsume(t *testing.T) {
 			Convey("When consume message is called", func() {
 
 				handlerWg.Add(1)
-				kafkaConsumerWg.Add(1)
 				consumer.Consume(testCtx, mockConsumer, mockEventHandler)
 				handlerWg.Wait()
 
@@ -68,9 +65,9 @@ func TestConsume(t *testing.T) {
 				})
 
 				Convey("The message is committed and the consumer is released", func() {
-					kafkaConsumerWg.Wait()
+					<-message.UpstreamDone()
 					So(len(message.CommitCalls()), ShouldEqual, 1)
-					So(len(mockConsumer.ReleaseCalls()), ShouldEqual, 1)
+					So(len(message.ReleaseCalls()), ShouldEqual, 1)
 				})
 			})
 		})
@@ -85,7 +82,6 @@ func TestConsume(t *testing.T) {
 			Convey("When consume messages is called", func() {
 
 				handlerWg.Add(1)
-				kafkaConsumerWg.Add(2)
 				consumer.Consume(testCtx, mockConsumer, mockEventHandler)
 				handlerWg.Wait()
 
@@ -95,10 +91,12 @@ func TestConsume(t *testing.T) {
 				})
 
 				Convey("Only the valid message is committed, but the consumer is released for both messages", func() {
-					kafkaConsumerWg.Wait()
+					<-validMessage.UpstreamDone()
+					<-invalidMessage.UpstreamDone()
 					So(len(validMessage.CommitCalls()), ShouldEqual, 1)
 					So(len(invalidMessage.CommitCalls()), ShouldEqual, 0)
-					So(len(mockConsumer.ReleaseCalls()), ShouldEqual, 2)
+					So(len(validMessage.ReleaseCalls()), ShouldEqual, 1)
+					So(len(invalidMessage.ReleaseCalls()), ShouldEqual, 1)
 				})
 			})
 		})
@@ -114,7 +112,6 @@ func TestConsume(t *testing.T) {
 			Convey("When consume message is called", func() {
 
 				handlerWg.Add(1)
-				kafkaConsumerWg.Add(1)
 				consumer.Consume(testCtx, mockConsumer, mockEventHandler)
 				handlerWg.Wait()
 
@@ -124,10 +121,9 @@ func TestConsume(t *testing.T) {
 				})
 
 				Convey("The message is committed and the consumer is released", func() {
-					kafkaConsumerWg.Wait()
+					<-message.UpstreamDone()
 					So(len(message.CommitCalls()), ShouldEqual, 1)
-					So(len(mockConsumer.ReleaseCalls()), ShouldEqual, 1)
-					// TODO in this case, once we have an error reported, we should validate that the error is correctly reported.
+					So(len(message.ReleaseCalls()), ShouldEqual, 1)
 				})
 			})
 		})

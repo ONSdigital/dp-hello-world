@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/ONSdigital/dp-hello-world-event/schema"
-	kafka "github.com/ONSdigital/dp-kafka"
+	kafka "github.com/ONSdigital/dp-kafka/v2"
 	"github.com/ONSdigital/log.go/log"
 )
 
@@ -14,7 +14,6 @@ import (
 // MessageConsumer provides a generic interface for consuming []byte messages
 type MessageConsumer interface {
 	Channels() *kafka.ConsumerGroupChannels
-	Release()
 }
 
 // Handler represents a handler for processing a single event.
@@ -47,7 +46,7 @@ func (consumer *Consumer) Consume(ctx context.Context, messageConsumer MessageCo
 			case message := <-messageConsumer.Channels().Upstream:
 				messageCtx := context.Background()
 				processMessage(messageCtx, message, handler)
-				messageConsumer.Release()
+				message.Release()
 			case <-consumer.closing:
 				log.Event(ctx, "closing event consumer loop", log.INFO)
 				return

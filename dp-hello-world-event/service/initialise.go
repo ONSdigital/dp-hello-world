@@ -2,11 +2,12 @@ package service
 
 import (
 	"context"
+	kafka "github.com/ONSdigital/dp-kafka"
 	"net/http"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-event/config"
-	dpkafka "github.com/ONSdigital/dp-kafka"
+	dpkafka "github.com/ONSdigital/dp-kafka/v2"
 	dphttp "github.com/ONSdigital/dp-net/http"
 )
 
@@ -64,15 +65,18 @@ func (e *Init) DoGetHTTPServer(bindAddr string, router http.Handler) HTTPServer 
 
 // DoGetKafkaConsumer returns a Kafka Consumer group
 func (e *Init) DoGetKafkaConsumer(ctx context.Context, cfg *config.Config) (KafkaConsumer, error) {
-	cgChannels := dpkafka.CreateConsumerGroupChannels(true)
+	cgChannels := dpkafka.CreateConsumerGroupChannels(1)
+	kafkaOffset := kafka.OffsetOldest
 	kafkaConsumer, err := dpkafka.NewConsumerGroup(
 		ctx,
-		cfg.Brokers,
+		cfg.KafkaAddr,
 		cfg.HelloCalledTopic,
 		cfg.HelloCalledGroup,
-		dpkafka.OffsetNewest,
-		true,
 		cgChannels,
+		&dpkafka.ConsumerGroupConfig{
+			KafkaVersion: &cfg.KafkaVersion,
+			Offset:       &kafkaOffset,
+		},
 	)
 	if err != nil {
 		return nil, err

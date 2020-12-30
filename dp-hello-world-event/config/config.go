@@ -12,7 +12,8 @@ type Config struct {
 	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`
 	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
-	Brokers                    []string      `envconfig:"KAFKA_ADDR"                     json:"-"`
+	KafkaAddr                  []string      `envconfig:"KAFKA_ADDR"                     json:"-"`
+	KafkaVersion               string        `envconfig:"KAFKA_VERSION"`
 	HelloCalledGroup           string        `envconfig:"HELLO_CALLED_GROUP"`
 	HelloCalledTopic           string        `envconfig:"HELLO_CALLED_TOPIC"`
 }
@@ -31,7 +32,8 @@ func Get() (*Config, error) {
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
-		Brokers:                    []string{"localhost:9092"},
+		KafkaAddr:                  []string{"localhost:9092"},
+		KafkaVersion:               "1.0.2",
 		HelloCalledGroup:           "dp-hello-world-event",
 		HelloCalledTopic:           "hello-called",
 	}
