@@ -14,6 +14,7 @@ type Config struct {
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
 	KafkaAddr                  []string      `envconfig:"KAFKA_ADDR"                     json:"-"`
 	KafkaVersion               string        `envconfig:"KAFKA_VERSION"`
+	KafkaOffsetOldest          bool          `envconfig:"KAFKA_OFFSET_OLDEST"`
 	HelloCalledGroup           string        `envconfig:"HELLO_CALLED_GROUP"`
 	HelloCalledTopic           string        `envconfig:"HELLO_CALLED_TOPIC"`
 }
@@ -34,6 +35,7 @@ func Get() (*Config, error) {
 		HealthCheckCriticalTimeout: 90 * time.Second,
 		KafkaAddr:                  []string{"localhost:9092"},
 		KafkaVersion:               "1.0.2",
+		KafkaOffsetOldest:          true,
 		HelloCalledGroup:           "dp-hello-world-event",
 		HelloCalledTopic:           "hello-called",
 	}

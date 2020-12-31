@@ -25,6 +25,7 @@ An example event can be created using the helper script, `make produce`.
 | HEALTHCHECK_INTERVAL         | 30s                               | Time between self-healthchecks (`time.Duration` format)
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s                               | Time to wait until an unhealthy dependent propagates its state to make this app unhealthy (`time.Duration` format)
 | KAFKA_ADDR                   | "localhost:9092"                  | The address of Kafka (accepts list)
+| KAFKA_OFFSET_OLDEST          | true                              | Start processing Kafka messages in order from the oldest in the queue
 | HELLO_CALLED_GROUP           | dp-hello-world-event              | The consumer group this application to consume ImageUploaded messages
 | HELLO_CALLED_TOPIC           | hello-called                      | The name of the topic to consume messages from
 

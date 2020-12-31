@@ -65,7 +65,10 @@ func (e *Init) DoGetHTTPServer(bindAddr string, router http.Handler) HTTPServer 
 // DoGetKafkaConsumer returns a Kafka Consumer group
 func (e *Init) DoGetKafkaConsumer(ctx context.Context, cfg *config.Config) (KafkaConsumer, error) {
 	cgChannels := dpkafka.CreateConsumerGroupChannels(1)
-	kafkaOffset := dpkafka.OffsetOldest
+	kafkaOffset := dpkafka.OffsetNewest
+	if cfg.KafkaOffsetOldest {
+		kafkaOffset = dpkafka.OffsetOldest
+	}
 	kafkaConsumer, err := dpkafka.NewConsumerGroup(
 		ctx,
 		cfg.KafkaAddr,
