@@ -1,0 +1,7 @@
+FROM onsdigital/dp-concourse-tools-ubuntu
+
+WORKDIR /app/
+
+COPY dp-hello-world-event .
+
+CMD ./dp-hello-world-event
