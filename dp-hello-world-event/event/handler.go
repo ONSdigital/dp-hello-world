@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/ONSdigital/log.go/log"
+	"io/ioutil"
 )
 
 // HelloCalledHandler ...
@@ -19,6 +20,8 @@ func (h *HelloCalledHandler) Handle(ctx context.Context, event *HelloCalled) (er
 
 	//TODO Replace with actual event handler logic…
 	greeting := fmt.Sprintf("Hello, %s!", event.RecipientName)
+	_ = ioutil.WriteFile("/tmp/helloworld.txt", []byte(greeting), 0644)
+
 	logData["greeting"] = greeting
 	log.Event(ctx, "hello world example handler called successfully", log.INFO, logData)
 
