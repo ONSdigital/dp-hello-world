@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/kelseyhightower/envconfig"
 	"time"
+
+	"github.com/kelseyhightower/envconfig"
 )
 
 // Config represents service configuration for dp-hello-world-controller
@@ -23,7 +24,7 @@ func Get() (*Config, error) {
 		return cfg, nil
 	}
 
-	cfg := &Config{
+	cfg = &Config{
 		BindAddr:                   ":8124",
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,

@@ -26,6 +26,6 @@ func TestUnitMapper(t *testing.T) {
 		}
 
 		hw := HelloWorld(ctx, hm, cfg)
-		So(hw, ShouldEqual, "Hello World!")
+		So(hw.HelloWho, ShouldEqual, "Hello World!")
 	})
 }

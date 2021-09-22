@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"github.com/ONSdigital/dp-hello-world-controller/mapper"
 	"github.com/ONSdigital/log.go/log"
-	"net/http"
 )
 
 // ClientError is an interface that can be used to retrieve the status code if a client has errored
