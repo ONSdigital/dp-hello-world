@@ -11,7 +11,11 @@ all: audit test build
 
 .PHONY: audit
 audit:
-	nancy go.sum
+	go list -json -m all | nancy sleuth --exclude-vulnerability-file ./.nancy-ignore
+
+.PHONY: lint
+lint:
+	exit
 
 .PHONY: build
 build:
@@ -30,3 +34,6 @@ test:
 convey:
 	goconvey ./...
 
+.PHONY: test-component
+test-component:
+	go test -cover -coverpkg=github.com/ONSdigital/dp-hello-world-controller/... -component

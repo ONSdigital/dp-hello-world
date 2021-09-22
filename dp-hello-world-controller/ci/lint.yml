@@ -6,16 +6,10 @@ image_resource:
   type: docker-image
   source:
     repository: golang
-    tag: 1.17.1
+    tag: latest
 
 inputs:
   - name: dp-hello-world-controller
 
-outputs:
-  - name: build
-
-caches:
-  - path: go/
-
 run:
-  path: dp-hello-world-controller/ci/scripts/build.sh
+  path: dp-hello-world-controller/ci/scripts/lint.sh

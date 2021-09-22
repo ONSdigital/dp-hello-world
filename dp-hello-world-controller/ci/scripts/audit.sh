@@ -1,15 +1,7 @@
----
-platform: linux
+#!/bin/bash -eux
 
-image_resource:
-  type: docker-image
-  source:
-    repository: onsdigital/dp-concourse-tools-nancy
-    tag: latest
+export cwd=$(pwd)
 
-inputs:
-  - name: dp-hello-world-controller
-    path: dp-hello-world-controller
-
-run:
-  path: dp-hello-world-controller/ci/scripts/audit.sh 
+pushd $cwd/dp-hello-world-controller
+  make audit
+popd
