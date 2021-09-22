@@ -4,79 +4,58 @@ import (
 	"context"
 	"os"
 	"os/signal"
-	"time"
-
-	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
+	"syscall"
 
 	"github.com/ONSdigital/dp-hello-world-controller/config"
-	"github.com/ONSdigital/dp-hello-world-controller/routes"
-	"github.com/ONSdigital/go-ns/server"
+	"github.com/ONSdigital/dp-hello-world-controller/service"
 	"github.com/ONSdigital/log.go/v2/log"
-	"github.com/gorilla/mux"
-)
-
-var (
-	// BuildTime represents the time in which the service was built
-	BuildTime string
-	// GitCommit represents the commit (SHA-1) hash of the service that is running
-	GitCommit string
-	// Version represents the version of the service that is running
-	Version string
 )
 
 func main() {
 	log.Namespace = "dp-hello-world-controller"
-	cfg, err := config.Get()
 	ctx := context.Background()
+
+	if err := run(ctx); err != nil {
+		log.Fatal(ctx, "application unexpectedly failed", err)
+		os.Exit(1)
+	}
+
+	os.Exit(0)
+}
+
+func run(ctx context.Context) error {
+	// Create error channel for os signals
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
+
+	// Create service initialiser and an error channel for service errors
+	svcList := service.NewServiceList(&service.Init{})
+	svcErrors := make(chan error, 1)
+
+	// Read config
+	cfg, err := config.Get()
 	if err != nil {
 		log.Error(ctx, "unable to retrieve service configuration", err)
-		os.Exit(1)
+		return err
 	}
 
 	log.Info(ctx, "got service configuration", log.Data{"config": cfg})
 
-	versionInfo, err := health.NewVersionInfo(
-		BuildTime,
-		GitCommit,
-		Version,
-	)
-
-	r := mux.NewRouter()
-
-	healthcheck := health.New(versionInfo, cfg.HealthCheckCriticalTimeout, cfg.HealthCheckInterval)
-	if err = registerCheckers(ctx, &healthcheck); err != nil {
-		os.Exit(1)
+	// Run service
+	svc := service.New()
+	if err := svc.Init(ctx, cfg, svcList); err != nil {
+		log.Error(ctx, "failed to initialise service", err)
+		return err
 	}
-	routes.Setup(ctx, r, cfg, healthcheck)
+	svc.Run(ctx, svcErrors)
 
-	healthcheck.Start(ctx)
-
-	s := server.New(cfg.BindAddr, r)
-	s.HandleOSSignals = false
-
-	log.Info(ctx, "Starting server", log.Data{"config": cfg})
-
-	go func() {
-		if err := s.ListenAndServe(); err != nil {
-			log.Error(ctx, "failed to start http listen and serve", err)
-			return
-		}
-	}()
-
-	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt, os.Kill)
-
-	<-stop
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	log.Info(ctx, "shutting service down gracefully")
-	defer cancel()
-	if err := s.Server.Shutdown(ctx); err != nil {
-		log.Error(ctx, "failed to shutdown http server", err)
+	// Blocks until an os interrupt or a fatal error occurs
+	select {
+	case err := <-svcErrors:
+		log.Error(ctx, "service error received", err)
+	case sig := <-signals:
+		log.Info(ctx, "os signal received", log.Data{"signal": sig})
 	}
-}
 
-func registerCheckers(ctx context.Context, h *health.HealthCheck) (err error) {
-	// TODO ADD HEALTH CHECKS HERE
-	return
+	return svc.Close(ctx)
 }
