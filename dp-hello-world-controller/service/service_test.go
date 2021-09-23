@@ -19,8 +19,9 @@ import (
 var (
 	ctx = context.Background()
 
-	errHealthCheck = errors.New("healthCheck error")
-	errServer      = errors.New("HTTP Server error")
+	errAddCheckFail = errors.New("Error(s) registering checkers for healthcheck")
+	errHealthCheck  = errors.New("healthCheck error")
+	errServer       = errors.New("HTTP Server error")
 
 	// Health Check Mock
 	hcMock = &mocks.HealthCheckerMock{
@@ -28,11 +29,18 @@ var (
 		StartFunc:    func(ctx context.Context) {},
 		StopFunc:     func() {},
 	}
+	hcMockAddFail = &mocks.HealthCheckerMock{
+		AddCheckFunc: func(name string, checker healthcheck.Checker) error { return errAddCheckFail },
+		StartFunc:    func(ctx context.Context) {},
+	}
 	funcDoGetHealthCheckOK = func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
 		return hcMock, nil
 	}
 	funcDoGetHealthCheckFail = func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
 		return nil, errHealthCheck
+	}
+	funcDoGetHealthAddCheckerFail = func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
+		return hcMockAddFail, nil
 	}
 
 	// Server Mock
@@ -149,6 +157,52 @@ func TestInitFailure(t *testing.T) {
 					Convey("And returns error", func() {
 						So(err, ShouldNotBeNil)
 						So(err, ShouldResemble, errHealthCheck)
+					})
+				})
+			})
+		})
+	})
+
+	// TODO: Enable this test when health checks are registered
+	SkipConvey("Given that Checkers cannot be registered", t, func() {
+		initMock := &mocks.InitialiserMock{
+			DoGetHealthClientFunc: funcDoGetHealthClient,
+			DoGetHealthCheckFunc:  funcDoGetHealthAddCheckerFail,
+		}
+		mockServiceList := service.NewServiceList(initMock)
+
+		Convey("and valid config and service error channel are provided", func() {
+			service.BuildTime = "TestBuildTime"
+			service.GitCommit = "TestGitCommit"
+			service.Version = "TestVersion"
+
+			cfg, err := config.Get()
+			So(err, ShouldBeNil)
+
+			svc := &service.Service{}
+
+			Convey("When Init is called", func() {
+				err := svc.Init(ctx, cfg, mockServiceList)
+
+				Convey("Then service initialisation fails", func() {
+					So(svc.Config, ShouldResemble, cfg)
+					So(svc.ServiceList, ShouldResemble, mockServiceList)
+					So(svc.ServiceList.HealthCheck, ShouldBeTrue)
+					So(svc.HealthCheck, ShouldResemble, hcMockAddFail)
+
+					// Server not initialised
+					So(svc.Server, ShouldBeNil)
+
+					Convey("And returns error", func() {
+						So(err, ShouldNotBeNil)
+						So(err.Error(), ShouldResemble, errAddCheckFail.Error())
+
+						Convey("And all checks try to register", func() {
+							So(mockServiceList.HealthCheck, ShouldBeTrue)
+							So(len(hcMockAddFail.AddCheckCalls()), ShouldEqual, 2)
+							So(hcMockAddFail.AddCheckCalls()[0].Name, ShouldResemble, "frontend renderer")
+							So(hcMockAddFail.AddCheckCalls()[1].Name, ShouldResemble, "API router")
+						})
 					})
 				})
 			})
