@@ -3,8 +3,11 @@ package mapper
 import (
 	"context"
 	"fmt"
+
 	"github.com/ONSdigital/dp-hello-world-controller/config"
 )
+
+// TODO: remove hello world example mapper and models
 
 type HelloModel struct {
 	Greeting string `json:"greeting"`

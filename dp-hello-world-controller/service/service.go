@@ -92,6 +92,8 @@ func (svc *Service) Close(ctx context.Context) error {
 		log.Info(ctx, "stop health checkers")
 		svc.HealthCheck.Stop()
 
+		// TODO: close any backing services here, e.g. client connections to databases
+
 		// stop any incoming requests
 		if err := svc.Server.Shutdown(ctx); err != nil {
 			log.Error(ctx, "failed to shutdown http server", err)

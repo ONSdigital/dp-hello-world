@@ -6,6 +6,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
+// TODO: remove hello world example config option
 // Config represents service configuration for dp-hello-world-controller
 type Config struct {
 	BindAddr                   string        `envconfig:"BIND_ADDR"`

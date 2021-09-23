@@ -2,12 +2,14 @@ package mapper
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"testing"
+
+	"github.com/ONSdigital/dp-hello-world-controller/config"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+// TODO: remove example test case
 func TestUnitMapper(t *testing.T) {
 	ctx := context.Background()
 
