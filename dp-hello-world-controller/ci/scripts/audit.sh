@@ -1,7 +1,5 @@
 #!/bin/bash -eux
 
-export cwd=$(pwd)
-
-pushd $cwd/dp-hello-world-controller
+pushd dp-hello-world-controller
   make audit
 popd
