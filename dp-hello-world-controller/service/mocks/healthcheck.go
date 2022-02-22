@@ -5,10 +5,11 @@ package mocks
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	"github.com/ONSdigital/dp-hello-world-controller/service"
 	"net/http"
 	"sync"
+
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
+	"github.com/ONSdigital/dp-hello-world-controller/service"
 )
 
 // Ensure, that HealthCheckerMock does implement service.HealthChecker.

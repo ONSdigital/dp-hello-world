@@ -5,11 +5,12 @@ package mock
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-hello-world-event/config"
-	"github.com/ONSdigital/dp-hello-world-event/service"
-	"github.com/ONSdigital/dp-kafka/v2"
 	"net/http"
 	"sync"
+
+	"github.com/ONSdigital/dp-hello-world-event/config"
+	"github.com/ONSdigital/dp-hello-world-event/service"
+	kafka "github.com/ONSdigital/dp-kafka/v3"
 )
 
 var (

@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/kelseyhightower/envconfig"
 	"time"
+
+	"github.com/kelseyhightower/envconfig"
 )
 
 // Config represents service configuration for dp-hello-world-api

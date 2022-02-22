@@ -2,7 +2,8 @@ package api
 
 import (
 	"context"
-	"github.com/ONSdigital/log.go/log"
+
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 )
 

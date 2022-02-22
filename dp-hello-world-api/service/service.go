@@ -2,11 +2,12 @@ package service
 
 import (
 	"context"
+
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-api/api"
 	"github.com/ONSdigital/dp-hello-world-api/config"
 	"github.com/ONSdigital/go-ns/server"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 )
@@ -28,7 +29,7 @@ func Run(buildTime, gitCommit, version string, svcErrors chan error) (*Service, 
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to retrieve service configuration")
 	}
-	log.Event(ctx, "got service configuration", log.Data{"config": cfg}, log.INFO)
+	log.Info(ctx, "got service configuration", log.Data{"config": cfg}, log.INFO)
 
 	r := mux.NewRouter()
 
@@ -70,20 +71,20 @@ func Run(buildTime, gitCommit, version string, svcErrors chan error) (*Service, 
 // Gracefully shutdown the service
 func (svc *Service) Close(ctx context.Context) {
 	timeout := svc.Config.GracefulShutdownTimeout
-	log.Event(ctx, "commencing graceful shutdown", log.Data{"graceful_shutdown_timeout": timeout}, log.INFO)
+	log.Info(ctx, "commencing graceful shutdown", log.Data{"graceful_shutdown_timeout": timeout}, log.INFO)
 	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
 	// stop any incoming requests before closing any outbound connections
 	if err := svc.server.Shutdown(ctx); err != nil {
-		log.Event(ctx, "failed to shutdown http server", log.Error(err), log.ERROR)
+		log.Error(ctx, "failed to shutdown http server", err, log.ERROR)
 	}
 
 	if err := svc.API.Close(ctx); err != nil {
-		log.Event(ctx, "error closing API", log.Error(err), log.ERROR)
+		log.Error(ctx, "error closing API", err, log.ERROR)
 	}
 
-	log.Event(ctx, "graceful shutdown complete", log.INFO)
+	log.Info(ctx, "graceful shutdown complete", log.INFO)
 }
 
 func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck) (err error) {

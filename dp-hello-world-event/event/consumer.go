@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/ONSdigital/dp-hello-world-event/schema"
-	kafka "github.com/ONSdigital/dp-kafka/v2"
-	"github.com/ONSdigital/log.go/log"
+	kafka "github.com/ONSdigital/dp-kafka/v3"
+	"github.com/ONSdigital/log.go/v2/log"
 )
 
 //go:generate moq -out mock/handler.go -pkg mock . Handler
@@ -50,7 +50,7 @@ func processMessage(ctx context.Context, message kafka.Message, handler Handler)
 	// unmarshal - commit on failure (consuming the message again would result in the same error)
 	event, err := unmarshal(message)
 	if err != nil {
-		log.Event(ctx, "failed to unmarshal event", log.ERROR, log.Error(err))
+		log.Error(ctx, "failed to unmarshal event", err)
 		message.Commit()
 		return
 	}
@@ -60,7 +60,7 @@ func processMessage(ctx context.Context, message kafka.Message, handler Handler)
 	// handle - commit on failure (implement error handling to not commit if message needs to be consumed again)
 	err = handler.Handle(ctx, event)
 	if err != nil {
-		log.Event(ctx, "failed to handle event", log.ERROR, log.Error(err))
+		log.Error(ctx, "failed to handle event", err)
 		message.Commit()
 		return
 	}

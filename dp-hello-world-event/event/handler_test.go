@@ -1,9 +1,10 @@
 package event_test
 
 import (
+	"testing"
+
 	"github.com/ONSdigital/dp-hello-world-event/event"
 	. "github.com/smartystreets/goconvey/convey"
-	"testing"
 )
 
 func TestHelloCalledHandler_Handle(t *testing.T) {

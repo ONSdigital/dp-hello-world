@@ -3,7 +3,8 @@ package event
 import (
 	"context"
 	"fmt"
-	"github.com/ONSdigital/log.go/log"
+
+	"github.com/ONSdigital/log.go/v2/log"
 )
 
 // HelloCalledHandler ...

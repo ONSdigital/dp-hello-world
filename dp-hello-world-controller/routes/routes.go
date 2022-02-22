@@ -6,7 +6,6 @@ import (
 
 	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"github.com/ONSdigital/dp-hello-world-controller/handlers"
-
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 )

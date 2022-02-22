@@ -5,8 +5,9 @@ package mock
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-hello-world-event/event"
 	"sync"
+
+	"github.com/ONSdigital/dp-hello-world-event/event"
 )
 
 var (

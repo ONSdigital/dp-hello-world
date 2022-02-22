@@ -6,8 +6,8 @@ import (
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-event/config"
-	dpkafka "github.com/ONSdigital/dp-kafka/v2"
-	dphttp "github.com/ONSdigital/dp-net/http"
+	dpkafka "github.com/ONSdigital/dp-kafka/v3"
+	dphttp "github.com/ONSdigital/dp-net/v2/http"
 )
 
 // ExternalServiceList holds the initialiser and initialisation state of external services.
@@ -64,17 +64,12 @@ func (e *Init) DoGetHTTPServer(bindAddr string, router http.Handler) HTTPServer 
 
 // DoGetKafkaConsumer returns a Kafka Consumer group
 func (e *Init) DoGetKafkaConsumer(ctx context.Context, cfg *config.Config) (dpkafka.IConsumerGroup, error) {
-	cgChannels := dpkafka.CreateConsumerGroupChannels(1)
 	kafkaOffset := dpkafka.OffsetNewest
 	if cfg.KafkaOffsetOldest {
 		kafkaOffset = dpkafka.OffsetOldest
 	}
 	kafkaConsumer, err := dpkafka.NewConsumerGroup(
 		ctx,
-		cfg.KafkaAddr,
-		cfg.HelloCalledTopic,
-		cfg.HelloCalledGroup,
-		cgChannels,
 		&dpkafka.ConsumerGroupConfig{
 			KafkaVersion: &cfg.KafkaVersion,
 			Offset:       &kafkaOffset,

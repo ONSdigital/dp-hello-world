@@ -10,7 +10,7 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/event"
 	"github.com/ONSdigital/dp-hello-world-event/schema"
-	kafka "github.com/ONSdigital/dp-kafka/v2"
+	kafka "github.com/ONSdigital/dp-kafka/v3"
 	"github.com/ONSdigital/log.go/log"
 )
 
@@ -27,9 +27,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Create Kafka Producer
-	pChannels := kafka.CreateProducerChannels()
-	kafkaProducer, err := kafka.NewProducer(ctx, config.KafkaAddr, config.HelloCalledTopic, pChannels, &kafka.ProducerConfig{
+	kafkaProducer, err := kafka.NewProducer(ctx, &kafka.ProducerConfig{
 		KafkaVersion: &config.KafkaVersion,
 	})
 	if err != nil {
@@ -38,7 +36,7 @@ func main() {
 	}
 
 	// kafka error logging go-routines
-	kafkaProducer.Channels().LogErrors(ctx, "kafka producer")
+	kafkaProducer.LogErrors(ctx)
 
 	time.Sleep(500 * time.Millisecond)
 	scanner := bufio.NewScanner(os.Stdin)

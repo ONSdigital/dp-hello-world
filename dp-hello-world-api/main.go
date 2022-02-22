@@ -6,7 +6,7 @@ import (
 	"os/signal"
 
 	"github.com/ONSdigital/dp-hello-world-api/service"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/pkg/errors"
 )
 
@@ -25,7 +25,7 @@ func main() {
 	log.Namespace = serviceName
 
 	if err := run(); err != nil {
-		log.Event(nil, "fatal runtime error", log.Error(err), log.FATAL)
+		log.Fatal(nil, "fatal runtime error", err)
 		os.Exit(1)
 	}
 }
@@ -46,7 +46,7 @@ func run() error {
 		return errors.Wrap(err, "service error received")
 	case sig := <-signals:
 		ctx := context.Background()
-		log.Event(ctx, "os signal received", log.Data{"signal": sig}, log.INFO)
+		log.Info(ctx, "os signal received", log.Data{"signal": sig}, log.INFO)
 		svc.Close(ctx)
 	}
 	return nil

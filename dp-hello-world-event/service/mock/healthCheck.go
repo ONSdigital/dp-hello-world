@@ -5,10 +5,11 @@ package mock
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	"github.com/ONSdigital/dp-hello-world-event/service"
 	"net/http"
 	"sync"
+
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
+	"github.com/ONSdigital/dp-hello-world-event/service"
 )
 
 var (

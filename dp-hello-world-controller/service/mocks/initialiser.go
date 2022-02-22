@@ -4,11 +4,12 @@
 package mocks
 
 import (
+	"net/http"
+	"sync"
+
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"github.com/ONSdigital/dp-hello-world-controller/service"
-	"net/http"
-	"sync"
 )
 
 // Ensure, that InitialiserMock does implement service.Initialiser.

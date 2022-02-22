@@ -5,8 +5,9 @@ package mocks
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-hello-world-controller/service"
 	"sync"
+
+	"github.com/ONSdigital/dp-hello-world-controller/service"
 )
 
 // Ensure, that HTTPServerMock does implement service.HTTPServer.

@@ -11,8 +11,8 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/service"
 	serviceMock "github.com/ONSdigital/dp-hello-world-event/service/mock"
-	kafka "github.com/ONSdigital/dp-kafka/v2"
-	"github.com/ONSdigital/dp-kafka/v2/kafkatest"
+	kafka "github.com/ONSdigital/dp-kafka/v3"
+	"github.com/ONSdigital/dp-kafka/v3/kafkatest"
 	"github.com/pkg/errors"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -45,8 +45,9 @@ func TestRun(t *testing.T) {
 
 	Convey("Having a set of mocked dependencies", t, func() {
 		consumerMock := &kafkatest.IConsumerGroupMock{
-			CheckerFunc:  func(ctx context.Context, state *healthcheck.CheckState) error { return nil },
-			ChannelsFunc: func() *kafka.ConsumerGroupChannels { return &kafka.ConsumerGroupChannels{} },
+			CheckerFunc:   func(ctx context.Context, state *healthcheck.CheckState) error { return nil },
+			ChannelsFunc:  func() *kafka.ConsumerGroupChannels { return &kafka.ConsumerGroupChannels{} },
+			LogErrorsFunc: func(ctx context.Context) {},
 		}
 
 		hcMock := &serviceMock.HealthCheckerMock{
@@ -174,10 +175,11 @@ func TestClose(t *testing.T) {
 		hcStopped := false
 
 		consumerMock := &kafkatest.IConsumerGroupMock{
-			StopListeningToConsumerFunc: func(ctx context.Context) error { return nil },
-			CloseFunc:                   func(ctx context.Context) error { return nil },
-			CheckerFunc:                 func(ctx context.Context, state *healthcheck.CheckState) error { return nil },
-			ChannelsFunc:                func() *kafka.ConsumerGroupChannels { return &kafka.ConsumerGroupChannels{} },
+			StopFunc:      func() error { return nil },
+			CloseFunc:     func(ctx context.Context) error { return nil },
+			CheckerFunc:   func(ctx context.Context, state *healthcheck.CheckState) error { return nil },
+			ChannelsFunc:  func() *kafka.ConsumerGroupChannels { return &kafka.ConsumerGroupChannels{} },
+			LogErrorsFunc: func(ctx context.Context) {},
 		}
 
 		// healthcheck Stop does not depend on any other service being closed/stopped
@@ -215,7 +217,6 @@ func TestClose(t *testing.T) {
 
 			err = svc.Close(context.Background())
 			So(err, ShouldBeNil)
-			So(len(consumerMock.StopListeningToConsumerCalls()), ShouldEqual, 1)
 			So(len(hcMock.StopCalls()), ShouldEqual, 1)
 			So(len(consumerMock.CloseCalls()), ShouldEqual, 1)
 			So(len(serverMock.ShutdownCalls()), ShouldEqual, 1)
