@@ -3,8 +3,9 @@ package service
 import (
 	"net/http"
 
-	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-api/config"
+
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	dphttp "github.com/ONSdigital/dp-net/v2/http"
 )
 

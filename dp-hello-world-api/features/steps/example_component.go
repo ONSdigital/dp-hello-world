@@ -2,13 +2,13 @@ package steps
 
 import (
 	"context"
+	"github.com/ONSdigital/dp-hello-world-api/config"
+	"github.com/ONSdigital/dp-hello-world-api/service"
+	"github.com/ONSdigital/dp-hello-world-api/service/mock"
 	"net/http"
 
 	componenttest "github.com/ONSdigital/dp-component-test"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	"github.com/ONSdigital/dp-hello-world-api/config"
-	"github.com/ONSdigital/dp-hello-world-api/service"
-	"github.com/ONSdigital/dp-hello-world-api/service/mock"
 )
 
 type Component struct {

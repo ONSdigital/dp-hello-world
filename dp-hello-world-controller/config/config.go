@@ -26,7 +26,7 @@ func Get() (*Config, error) {
 	}
 
 	cfg = &Config{
-		BindAddr:                   ":8080",
+		BindAddr:                   ":8123",
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,

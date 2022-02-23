@@ -1,11 +1,10 @@
 package steps
 
 import (
-	"io/ioutil"
-	"strings"
-
 	"github.com/cucumber/godog"
 	"github.com/stretchr/testify/assert"
+	"io/ioutil"
+	"strings"
 )
 
 func (c *Component) RegisterSteps(ctx *godog.ScenarioContext) {

@@ -3,7 +3,7 @@ module github.com/ONSdigital/dp-hello-world-controller
 go 1.17
 
 require (
-	github.com/ONSdigital/dp-api-clients-go/v2 v2.92.3
+	github.com/ONSdigital/dp-api-clients-go/v2 v2.92.4
 	github.com/ONSdigital/dp-healthcheck v1.3.0
 	github.com/ONSdigital/dp-net/v2 v2.0.0
 	github.com/ONSdigital/log.go/v2 v2.1.0

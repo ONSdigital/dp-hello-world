@@ -9,10 +9,12 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
+
 	"github.com/ONSdigital/dp-hello-world-api/config"
 	"github.com/ONSdigital/dp-hello-world-api/service"
 	"github.com/ONSdigital/dp-hello-world-api/service/mock"
 	serviceMock "github.com/ONSdigital/dp-hello-world-api/service/mock"
+
 	"github.com/pkg/errors"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -117,7 +119,7 @@ func TestRun(t *testing.T) {
 			Convey("The checkers are registered and the healthcheck and http server started", func() {
 				So(len(hcMock.AddCheckCalls()), ShouldEqual, 0)
 				So(len(initMock.DoGetHTTPServerCalls()), ShouldEqual, 1)
-				So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, "localhost:8080")
+				So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, "localhost:8123")
 				So(len(hcMock.StartCalls()), ShouldEqual, 1)
 				//!!! a call needed to stop the server, maybe ?
 				serverWg.Wait() // Wait for HTTP server go-routine to finish
