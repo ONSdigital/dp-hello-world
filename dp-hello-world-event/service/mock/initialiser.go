@@ -5,12 +5,11 @@ package mock
 
 import (
 	"context"
-	"net/http"
-	"sync"
-
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/service"
-	kafka "github.com/ONSdigital/dp-kafka/v3"
+	"github.com/ONSdigital/dp-kafka/v3"
+	"net/http"
+	"sync"
 )
 
 var (
@@ -35,7 +34,7 @@ var _ service.Initialiser = &InitialiserMock{}
 //             DoGetHealthCheckFunc: func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
 // 	               panic("mock out the DoGetHealthCheck method")
 //             },
-//             DoGetKafkaConsumerFunc: func(ctx context.Context, cfg *config.Config) (kafka.IConsumerGroup, error) {
+//             DoGetKafkaConsumerFunc: func(ctx context.Context, kafkaCfg *config.KafkaConfig) (kafka.IConsumerGroup, error) {
 // 	               panic("mock out the DoGetKafkaConsumer method")
 //             },
 //         }
@@ -52,7 +51,7 @@ type InitialiserMock struct {
 	DoGetHealthCheckFunc func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error)
 
 	// DoGetKafkaConsumerFunc mocks the DoGetKafkaConsumer method.
-	DoGetKafkaConsumerFunc func(ctx context.Context, cfg *config.Config) (kafka.IConsumerGroup, error)
+	DoGetKafkaConsumerFunc func(ctx context.Context, kafkaCfg *config.KafkaConfig) (kafka.IConsumerGroup, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -79,7 +78,7 @@ type InitialiserMock struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
 			// Cfg is the cfg argument value.
-			Cfg *config.Config
+			Cfg *config.KafkaConfig
 		}
 	}
 }
@@ -163,21 +162,21 @@ func (mock *InitialiserMock) DoGetHealthCheckCalls() []struct {
 }
 
 // DoGetKafkaConsumer calls DoGetKafkaConsumerFunc.
-func (mock *InitialiserMock) DoGetKafkaConsumer(ctx context.Context, cfg *config.Config) (kafka.IConsumerGroup, error) {
+func (mock *InitialiserMock) DoGetKafkaConsumer(ctx context.Context, kafkaCfg *config.KafkaConfig) (kafka.IConsumerGroup, error) {
 	if mock.DoGetKafkaConsumerFunc == nil {
 		panic("InitialiserMock.DoGetKafkaConsumerFunc: method is nil but Initialiser.DoGetKafkaConsumer was just called")
 	}
 	callInfo := struct {
 		Ctx context.Context
-		Cfg *config.Config
+		Cfg *config.KafkaConfig
 	}{
 		Ctx: ctx,
-		Cfg: cfg,
+		Cfg: kafkaCfg,
 	}
 	lockInitialiserMockDoGetKafkaConsumer.Lock()
 	mock.calls.DoGetKafkaConsumer = append(mock.calls.DoGetKafkaConsumer, callInfo)
 	lockInitialiserMockDoGetKafkaConsumer.Unlock()
-	return mock.DoGetKafkaConsumerFunc(ctx, cfg)
+	return mock.DoGetKafkaConsumerFunc(ctx, kafkaCfg)
 }
 
 // DoGetKafkaConsumerCalls gets all the calls that were made to DoGetKafkaConsumer.
@@ -185,11 +184,11 @@ func (mock *InitialiserMock) DoGetKafkaConsumer(ctx context.Context, cfg *config
 //     len(mockedInitialiser.DoGetKafkaConsumerCalls())
 func (mock *InitialiserMock) DoGetKafkaConsumerCalls() []struct {
 	Ctx context.Context
-	Cfg *config.Config
+	Cfg *config.KafkaConfig
 } {
 	var calls []struct {
 		Ctx context.Context
-		Cfg *config.Config
+		Cfg *config.KafkaConfig
 	}
 	lockInitialiserMockDoGetKafkaConsumer.RLock()
 	calls = mock.calls.DoGetKafkaConsumer

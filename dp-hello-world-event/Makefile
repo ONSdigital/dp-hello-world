@@ -11,7 +11,7 @@ all: audit test build
 
 .PHONY: audit
 audit:
-	nancy go.sum
+	go list -m all | nancy sleuth
 
 .PHONY: build
 build:
@@ -34,3 +34,6 @@ produce:
 convey:
 	goconvey ./...
 
+.PHONY: test-component
+test-component:
+	go test -cover -coverpkg=github.com/ONSdigital/dp-hello-world-event/... -component

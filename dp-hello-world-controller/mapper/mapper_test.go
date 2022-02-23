@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/ONSdigital/dp-hello-world-controller/config"
+
 	. "github.com/smartystreets/goconvey/convey"
 )
 

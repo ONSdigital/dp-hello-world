@@ -23,8 +23,8 @@ func Get() (*Config, error) {
 		return cfg, nil
 	}
 
-	cfg := &Config{
-		BindAddr:                   ":8123",
+	cfg = &Config{
+		BindAddr:                   "localhost:8080",
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,

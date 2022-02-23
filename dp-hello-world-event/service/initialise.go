@@ -37,7 +37,7 @@ func (e *ExternalServiceList) GetHTTPServer(bindAddr string, router http.Handler
 
 // GetKafkaConsumer creates a Kafka consumer and sets the consumer flag to true
 func (e *ExternalServiceList) GetKafkaConsumer(ctx context.Context, cfg *config.Config) (dpkafka.IConsumerGroup, error) {
-	consumer, err := e.Init.DoGetKafkaConsumer(ctx, cfg)
+	consumer, err := e.Init.DoGetKafkaConsumer(ctx, &cfg.KafkaConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -63,17 +63,26 @@ func (e *Init) DoGetHTTPServer(bindAddr string, router http.Handler) HTTPServer 
 }
 
 // DoGetKafkaConsumer returns a Kafka Consumer group
-func (e *Init) DoGetKafkaConsumer(ctx context.Context, cfg *config.Config) (dpkafka.IConsumerGroup, error) {
+func (e *Init) DoGetKafkaConsumer(ctx context.Context, kafkaCfg *config.KafkaConfig) (dpkafka.IConsumerGroup, error) {
 	kafkaOffset := dpkafka.OffsetNewest
-	if cfg.KafkaOffsetOldest {
+	if kafkaCfg.OffsetOldest {
 		kafkaOffset = dpkafka.OffsetOldest
+	}
+	cgConfig := &dpkafka.ConsumerGroupConfig{
+		KafkaVersion: &kafkaCfg.Version,
+		Offset:       &kafkaOffset,
+	}
+	if kafkaCfg.SecProtocol == config.KafkaTLSProtocolFlag {
+		cgConfig.SecurityConfig = dpkafka.GetSecurityConfig(
+			kafkaCfg.SecCACerts,
+			kafkaCfg.SecClientCert,
+			kafkaCfg.SecClientKey,
+			kafkaCfg.SecSkipVerify,
+		)
 	}
 	kafkaConsumer, err := dpkafka.NewConsumerGroup(
 		ctx,
-		&dpkafka.ConsumerGroupConfig{
-			KafkaVersion: &cfg.KafkaVersion,
-			Offset:       &kafkaOffset,
-		},
+		cgConfig,
 	)
 	if err != nil {
 		return nil, err

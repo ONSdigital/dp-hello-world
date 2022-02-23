@@ -1,6 +1,4 @@
-dp-hello-world-event
-================
-
+# dp-hello-world-event
 ONS service that processes an example event
 
 ### Getting started
@@ -13,22 +11,29 @@ An example event can be created using the helper script, `make produce`.
 ### Dependencies
 
 * Requires running…
-  * [kafka](https://github.com/ONSdigital/dp/blob/master/guides/INSTALLING.md#prerequisites)
+  * [kafka](https://github.com/ONSdigital/dp/blob/main/guides/INSTALLING.md#prerequisites)
 * No further dependencies other than those defined in `go.mod`
 
 ### Configuration
 
 | Environment variable         | Default                           | Description
 | ---------------------------- | --------------------------------- | -----------
-| BIND_ADDR                    | localhost:8125                    | The host and port to bind to
+| BIND_ADDR                    | localhost:8080                    | The host and port to bind to
 | GRACEFUL_SHUTDOWN_TIMEOUT    | 5s                                | The graceful shutdown timeout in seconds (`time.Duration` format)
 | HEALTHCHECK_INTERVAL         | 30s                               | Time between self-healthchecks (`time.Duration` format)
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s                               | Time to wait until an unhealthy dependent propagates its state to make this app unhealthy (`time.Duration` format)
 | KAFKA_ADDR                   | "localhost:9092"                  | The address of Kafka (accepts list)
 | KAFKA_OFFSET_OLDEST          | true                              | Start processing Kafka messages in order from the oldest in the queue
 | KAFKA_NUM_WORKERS            | 1                                 | The maximum number of parallel kafka consumers
-| HELLO_CALLED_GROUP           | dp-hello-world-event              | The consumer group this application to consume ImageUploaded messages
+| KAFKA_SEC_PROTO              | _unset_                           | if set to `TLS`, kafka connections will use TLS ([kafka TLS doc])
+| KAFKA_SEC_CA_CERTS           | _unset_                           | CA cert chain for the server cert ([kafka TLS doc])
+| KAFKA_SEC_CLIENT_KEY         | _unset_                           | PEM for the client key ([kafka TLS doc])
+| KAFKA_SEC_CLIENT_CERT        | _unset_                           | PEM for the client certificate ([kafka TLS doc])
+| KAFKA_SEC_SKIP_VERIFY        | false                             | ignores server certificate issues if `true` ([kafka TLS doc])
+| HELLO_CALLED_GROUP           | dp-hello-world-event              | The consumer group this application to consume topic messages
 | HELLO_CALLED_TOPIC           | hello-called                      | The name of the topic to consume messages from
+
+[kafka TLS doc]: https://github.com/ONSdigital/dp-kafka/tree/main/examples#tls
 
 ### Healthcheck
 
@@ -44,7 +49,7 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### License
 
-Copyright © 2020, Office for National Statistics (https://www.ons.gov.uk)
+Copyright © 2022, Office for National Statistics (https://www.ons.gov.uk)
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.
 

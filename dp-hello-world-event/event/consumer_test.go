@@ -3,6 +3,7 @@ package event_test
 import (
 	"context"
 	"errors"
+	"github.com/ONSdigital/dp-hello-world-event/config"
 	"sync"
 	"testing"
 
@@ -30,6 +31,7 @@ var kafkaStubConsumer = &kafkatest.IConsumerGroupMock{
 	},
 }
 
+// TODO: remove or replace hello called logic with app specific
 func TestConsume(t *testing.T) {
 
 	Convey("Given kafka consumer and event handler mocks", t, func() {
@@ -41,7 +43,7 @@ func TestConsume(t *testing.T) {
 
 		handlerWg := &sync.WaitGroup{}
 		mockEventHandler := &mock.HandlerMock{
-			HandleFunc: func(ctx context.Context, event *event.HelloCalled) error {
+			HandleFunc: func(ctx context.Context, config *config.Config, event *event.HelloCalled) error {
 				defer handlerWg.Done()
 				return nil
 			},
@@ -55,8 +57,7 @@ func TestConsume(t *testing.T) {
 			Convey("When consume message is called", func() {
 
 				handlerWg.Add(1)
-				numWorkers := 1
-				event.Consume(testCtx, mockConsumer, mockEventHandler, numWorkers)
+				event.Consume(testCtx, mockConsumer, mockEventHandler, &config.Config{KafkaConfig: config.KafkaConfig{NumWorkers: 1}})
 				handlerWg.Wait()
 
 				Convey("An event is sent to the mockEventHandler ", func() {
@@ -82,8 +83,7 @@ func TestConsume(t *testing.T) {
 			Convey("When consume messages is called", func() {
 
 				handlerWg.Add(1)
-				numWorkers := 1
-				event.Consume(testCtx, mockConsumer, mockEventHandler, numWorkers)
+				event.Consume(testCtx, mockConsumer, mockEventHandler, &config.Config{KafkaConfig: config.KafkaConfig{NumWorkers: 1}})
 				handlerWg.Wait()
 
 				Convey("Only the valid event is sent to the mockEventHandler ", func() {
@@ -103,7 +103,7 @@ func TestConsume(t *testing.T) {
 		})
 
 		Convey("With a failing handler and a kafka message with the valid schema being sent to the Upstream channel", func() {
-			mockEventHandler.HandleFunc = func(ctx context.Context, event *event.HelloCalled) error {
+			mockEventHandler.HandleFunc = func(ctx context.Context, config *config.Config, event *event.HelloCalled) error {
 				defer handlerWg.Done()
 				return errHandler
 			}
@@ -113,8 +113,7 @@ func TestConsume(t *testing.T) {
 			Convey("When consume message is called", func() {
 
 				handlerWg.Add(1)
-				numWorkers := 1
-				event.Consume(testCtx, mockConsumer, mockEventHandler, numWorkers)
+				event.Consume(testCtx, mockConsumer, mockEventHandler, &config.Config{KafkaConfig: config.KafkaConfig{NumWorkers: 1}})
 				handlerWg.Wait()
 
 				Convey("An event is sent to the mockEventHandler ", func() {

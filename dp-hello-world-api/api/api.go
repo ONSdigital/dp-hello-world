@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 
-	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 )
 
@@ -12,17 +11,13 @@ type API struct {
 	Router *mux.Router
 }
 
+//Setup function sets up the api and returns an api
 func Setup(ctx context.Context, r *mux.Router) *API {
 	api := &API{
 		Router: r,
 	}
 
-	r.HandleFunc("/hello", HelloHandler()).Methods("GET")
+	// TODO: remove hello world example handler route
+	r.HandleFunc("/hello", HelloHandler(ctx)).Methods("GET")
 	return api
-}
-
-func (*API) Close(ctx context.Context) error {
-	// Close any dependencies
-	log.Event(ctx, "graceful shutdown of api complete", log.INFO)
-	return nil
 }
