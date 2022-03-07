@@ -3,12 +3,12 @@ module github.com/ONSdigital/dp-hello-world-event
 go 1.17
 
 require (
-	github.com/ONSdigital/dp-component-test v0.6.5
+	github.com/ONSdigital/dp-component-test v0.7.0
 	github.com/ONSdigital/dp-healthcheck v1.3.0
-	github.com/ONSdigital/dp-kafka/v3 v3.3.0
+	github.com/ONSdigital/dp-kafka/v3 v3.3.1
 	github.com/ONSdigital/dp-net/v2 v2.0.0
 	github.com/ONSdigital/go-ns v0.0.0-20210916104633-ac1c1c52327e
-	github.com/ONSdigital/log.go/v2 v2.1.0
+	github.com/ONSdigital/log.go/v2 v2.2.0
 	github.com/cucumber/godog v0.12.4
 	github.com/gorilla/mux v1.8.0
 	github.com/kelseyhightower/envconfig v1.4.0
@@ -22,7 +22,7 @@ require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0 // indirect
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.92.2 // indirect
 	github.com/ONSdigital/dp-mongodb-in-memory v1.2.0 // indirect
-	github.com/ONSdigital/dp-net v1.2.0 // indirect
+	github.com/ONSdigital/dp-net v1.4.1 // indirect
 	github.com/Shopify/sarama v1.30.1 // indirect
 	github.com/chromedp/cdproto v0.0.0-20211126220118-81fa0469ad77 // indirect
 	github.com/chromedp/chromedp v0.7.6 // indirect

@@ -47,6 +47,11 @@ func Run(ctx context.Context, serviceList *ExternalServiceList, buildTime, gitCo
 	// Event Handler for Kafka Consumer
 	event.Consume(ctx, consumer, &event.HelloCalledHandler{}, cfg)
 
+	if consumerStartErr := consumer.Start(); consumerStartErr != nil {
+		log.Fatal(ctx, "error starting the consumer", consumerStartErr)
+		return nil, consumerStartErr
+	}
+
 	// Kafka error logging go-routine
 	consumer.LogErrors(ctx)
 
