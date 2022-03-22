@@ -11,6 +11,7 @@ import (
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-controller/config"
+	"github.com/ONSdigital/dp-hello-world-controller/handlers"
 	"github.com/ONSdigital/dp-hello-world-controller/service"
 	"github.com/ONSdigital/dp-hello-world-controller/service/mocks"
 	. "github.com/smartystreets/goconvey/convey"
@@ -89,6 +90,8 @@ func TestInitSuccess(t *testing.T) {
 		}
 		mockServiceList := service.NewServiceList(initMock)
 
+		mockRenderer := &handlers.RenderClientMock{}
+
 		Convey("and valid config and service error channel are provided", func() {
 			service.BuildTime = "TestBuildTime"
 			service.GitCommit = "TestGitCommit"
@@ -100,7 +103,7 @@ func TestInitSuccess(t *testing.T) {
 			svc := &service.Service{}
 
 			Convey("When Init is called", func() {
-				err := svc.Init(ctx, cfg, mockServiceList)
+				err := svc.Init(ctx, cfg, mockServiceList, mockRenderer)
 
 				Convey("Then service is initialised successfully", func() {
 					So(svc.Config, ShouldResemble, cfg)
@@ -115,7 +118,7 @@ func TestInitSuccess(t *testing.T) {
 							So(mockServiceList.HealthCheck, ShouldBeTrue)
 							So(len(hcMock.AddCheckCalls()), ShouldEqual, 0)
 							So(len(initMock.DoGetHTTPServerCalls()), ShouldEqual, 1)
-							So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, ":8123")
+							So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, ":8124")
 						})
 					})
 				})
@@ -132,6 +135,8 @@ func TestInitFailure(t *testing.T) {
 		}
 		mockServiceList := service.NewServiceList(initMock)
 
+		mockRenderer := &handlers.RenderClientMock{}
+
 		Convey("and valid config and service error channel are provided", func() {
 			service.BuildTime = "TestBuildTime"
 			service.GitCommit = "TestGitCommit"
@@ -143,7 +148,7 @@ func TestInitFailure(t *testing.T) {
 			svc := &service.Service{}
 
 			Convey("When Init is called", func() {
-				err := svc.Init(ctx, cfg, mockServiceList)
+				err := svc.Init(ctx, cfg, mockServiceList, mockRenderer)
 
 				Convey("Then service initialisation fails", func() {
 					So(svc.Config, ShouldResemble, cfg)
@@ -171,6 +176,8 @@ func TestInitFailure(t *testing.T) {
 		}
 		mockServiceList := service.NewServiceList(initMock)
 
+		mockRenderer := &handlers.RenderClientMock{}
+
 		Convey("and valid config and service error channel are provided", func() {
 			service.BuildTime = "TestBuildTime"
 			service.GitCommit = "TestGitCommit"
@@ -182,7 +189,7 @@ func TestInitFailure(t *testing.T) {
 			svc := &service.Service{}
 
 			Convey("When Init is called", func() {
-				err := svc.Init(ctx, cfg, mockServiceList)
+				err := svc.Init(ctx, cfg, mockServiceList, mockRenderer)
 
 				Convey("Then service initialisation fails", func() {
 					So(svc.Config, ShouldResemble, cfg)
