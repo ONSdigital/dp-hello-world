@@ -16,19 +16,19 @@ var _ event.Handler = &HandlerMock{}
 
 // HandlerMock is a mock implementation of event.Handler.
 //
-// 	func TestSomethingThatUsesHandler(t *testing.T) {
+//	func TestSomethingThatUsesHandler(t *testing.T) {
 //
-// 		// make and configure a mocked event.Handler
-// 		mockedHandler := &HandlerMock{
-// 			HandleFunc: func(ctx context.Context, cfg *config.Config, helloCalled *event.HelloCalled) error {
-// 				panic("mock out the Handle method")
-// 			},
-// 		}
+//		// make and configure a mocked event.Handler
+//		mockedHandler := &HandlerMock{
+//			HandleFunc: func(ctx context.Context, cfg *config.Config, helloCalled *event.HelloCalled) error {
+//				panic("mock out the Handle method")
+//			},
+//		}
 //
-// 		// use mockedHandler in code that requires event.Handler
-// 		// and then make assertions.
+//		// use mockedHandler in code that requires event.Handler
+//		// and then make assertions.
 //
-// 	}
+//	}
 type HandlerMock struct {
 	// HandleFunc mocks the Handle method.
 	HandleFunc func(ctx context.Context, cfg *config.Config, helloCalled *event.HelloCalled) error
@@ -70,7 +70,8 @@ func (mock *HandlerMock) Handle(ctx context.Context, cfg *config.Config, helloCa
 
 // HandleCalls gets all the calls that were made to Handle.
 // Check the length with:
-//     len(mockedHandler.HandleCalls())
+//
+//	len(mockedHandler.HandleCalls())
 func (mock *HandlerMock) HandleCalls() []struct {
 	Ctx         context.Context
 	Cfg         *config.Config
