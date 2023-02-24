@@ -16,10 +16,6 @@ all: audit test build
 audit:
 	go list -json -m all | nancy sleuth
 
-.PHONY: lint
-lint:
-	exit
-
 .PHONY: build
 build: generate-prod
 	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-controller
@@ -28,6 +24,10 @@ build: generate-prod
 debug: generate-debug
 	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-controller
 	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-hello-world-controller
+
+.PHONY: lint
+lint:
+	golangci-lint run ./...
 
 .PHONY: test
 test:
