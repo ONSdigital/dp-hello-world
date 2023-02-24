@@ -15,7 +15,7 @@ audit:
 
 .PHONY: lint
 lint:
-	exit
+	golangci-lint run ./...
 
 .PHONY: build
 build:

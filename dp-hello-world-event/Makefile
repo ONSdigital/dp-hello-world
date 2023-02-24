@@ -25,6 +25,10 @@ debug:
 .PHONY: test
 test:
 	go test -race -cover ./...
+	
+.PHONY: lint
+lint:
+	golangci-lint run ./...
 
 .PHONY: produce
 produce:
