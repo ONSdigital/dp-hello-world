@@ -22,13 +22,13 @@ debug:
 	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-event
 	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-hello-world-event
 
-.PHONY: test
-test:
-	go test -race -cover ./...
-	
 .PHONY: lint
 lint:
 	golangci-lint run ./...
+
+.PHONY: test
+test:
+	go test -race -cover ./...
 
 .PHONY: produce
 produce:
