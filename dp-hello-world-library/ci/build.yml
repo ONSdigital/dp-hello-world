@@ -1,0 +1,21 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: golang
+    tag: 1.19.6
+
+inputs:
+  - name: dp-hello-world-library
+
+outputs:
+  - name: build
+
+caches:
+  - path: go/
+
+run:
+  path: dp-hello-world-library/ci/scripts/build.sh
