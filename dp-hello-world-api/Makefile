@@ -13,10 +13,6 @@ all: audit test build
 audit:
 	go list -json -m all | nancy sleuth
 
-.PHONY: lint
-lint:
-	exit
-
 .PHONY: build
 build:
 	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-api
@@ -25,6 +21,10 @@ build:
 debug:
 	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-hello-world-api
 	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-hello-world-api
+
+.PHONY: lint
+lint:
+	golangci-lint run ./...
 
 .PHONY: test
 test:
