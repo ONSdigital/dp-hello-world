@@ -17,28 +17,28 @@ var _ service.Initialiser = &InitialiserMock{}
 
 // InitialiserMock is a mock implementation of service.Initialiser.
 //
-//     func TestSomethingThatUsesInitialiser(t *testing.T) {
+//	    func TestSomethingThatUsesInitialiser(t *testing.T) {
 //
-//         // make and configure a mocked service.Initialiser
-//         mockedInitialiser := &InitialiserMock{
-//             DoGetHTTPServerFunc: func(bindAddr string, router http.Handler) service.HTTPServer {
-// 	               panic("mock out the DoGetHTTPServer method")
-//             },
-//             DoGetHealthCheckFunc: func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
-// 	               panic("mock out the DoGetHealthCheck method")
-//             },
-//             DoGetS3UploadedFunc: func(ctx context.Context, cfg *config.Config) (api.S3Clienter, error) {
-// 	               panic("mock out the DoGetS3Uploaded method")
-//             },
-//             DoGetVaultFunc: func(ctx context.Context, cfg *config.Config) (api.VaultClienter, error) {
-// 	               panic("mock out the DoGetVault method")
-//             },
-//         }
+//	        // make and configure a mocked service.Initialiser
+//	        mockedInitialiser := &InitialiserMock{
+//	            DoGetHTTPServerFunc: func(bindAddr string, router http.Handler) service.HTTPServer {
+//		               panic("mock out the DoGetHTTPServer method")
+//	            },
+//	            DoGetHealthCheckFunc: func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
+//		               panic("mock out the DoGetHealthCheck method")
+//	            },
+//	            DoGetS3UploadedFunc: func(ctx context.Context, cfg *config.Config) (api.S3Clienter, error) {
+//		               panic("mock out the DoGetS3Uploaded method")
+//	            },
+//	            DoGetVaultFunc: func(ctx context.Context, cfg *config.Config) (api.VaultClienter, error) {
+//		               panic("mock out the DoGetVault method")
+//	            },
+//	        }
 //
-//         // use mockedInitialiser in code that requires service.Initialiser
-//         // and then make assertions.
+//	        // use mockedInitialiser in code that requires service.Initialiser
+//	        // and then make assertions.
 //
-//     }
+//	    }
 type InitialiserMock struct {
 	// DoGetHTTPServerFunc mocks the DoGetHTTPServer method.
 	DoGetHTTPServerFunc func(bindAddr string, router http.Handler) service.HTTPServer
@@ -91,7 +91,8 @@ func (mock *InitialiserMock) DoGetHTTPServer(bindAddr string, router http.Handle
 
 // DoGetHTTPServerCalls gets all the calls that were made to DoGetHTTPServer.
 // Check the length with:
-//     len(mockedInitialiser.DoGetHTTPServerCalls())
+//
+//	len(mockedInitialiser.DoGetHTTPServerCalls())
 func (mock *InitialiserMock) DoGetHTTPServerCalls() []struct {
 	BindAddr string
 	Router   http.Handler
@@ -130,7 +131,8 @@ func (mock *InitialiserMock) DoGetHealthCheck(cfg *config.Config, buildTime stri
 
 // DoGetHealthCheckCalls gets all the calls that were made to DoGetHealthCheck.
 // Check the length with:
-//     len(mockedInitialiser.DoGetHealthCheckCalls())
+//
+//	len(mockedInitialiser.DoGetHealthCheckCalls())
 func (mock *InitialiserMock) DoGetHealthCheckCalls() []struct {
 	Cfg       *config.Config
 	BuildTime string
