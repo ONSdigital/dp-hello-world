@@ -9,28 +9,33 @@ import (
 	"sync"
 )
 
+var (
+	lockHTTPServerMockListenAndServe sync.RWMutex
+	lockHTTPServerMockShutdown       sync.RWMutex
+)
+
 // Ensure, that HTTPServerMock does implement service.HTTPServer.
 // If this is not the case, regenerate this file with moq.
 var _ service.HTTPServer = &HTTPServerMock{}
 
 // HTTPServerMock is a mock implementation of service.HTTPServer.
 //
-//	func TestSomethingThatUsesHTTPServer(t *testing.T) {
+//     func TestSomethingThatUsesHTTPServer(t *testing.T) {
 //
-//		// make and configure a mocked service.HTTPServer
-//		mockedHTTPServer := &HTTPServerMock{
-//			ListenAndServeFunc: func() error {
-//				panic("mock out the ListenAndServe method")
-//			},
-//			ShutdownFunc: func(ctx context.Context) error {
-//				panic("mock out the Shutdown method")
-//			},
-//		}
+//         // make and configure a mocked service.HTTPServer
+//         mockedHTTPServer := &HTTPServerMock{
+//             ListenAndServeFunc: func() error {
+// 	               panic("mock out the ListenAndServe method")
+//             },
+//             ShutdownFunc: func(ctx context.Context) error {
+// 	               panic("mock out the Shutdown method")
+//             },
+//         }
 //
-//		// use mockedHTTPServer in code that requires service.HTTPServer
-//		// and then make assertions.
+//         // use mockedHTTPServer in code that requires service.HTTPServer
+//         // and then make assertions.
 //
-//	}
+//     }
 type HTTPServerMock struct {
 	// ListenAndServeFunc mocks the ListenAndServe method.
 	ListenAndServeFunc func() error
@@ -49,8 +54,6 @@ type HTTPServerMock struct {
 			Ctx context.Context
 		}
 	}
-	lockListenAndServe sync.RWMutex
-	lockShutdown       sync.RWMutex
 }
 
 // ListenAndServe calls ListenAndServeFunc.
@@ -60,23 +63,22 @@ func (mock *HTTPServerMock) ListenAndServe() error {
 	}
 	callInfo := struct {
 	}{}
-	mock.lockListenAndServe.Lock()
+	lockHTTPServerMockListenAndServe.Lock()
 	mock.calls.ListenAndServe = append(mock.calls.ListenAndServe, callInfo)
-	mock.lockListenAndServe.Unlock()
+	lockHTTPServerMockListenAndServe.Unlock()
 	return mock.ListenAndServeFunc()
 }
 
 // ListenAndServeCalls gets all the calls that were made to ListenAndServe.
 // Check the length with:
-//
-//	len(mockedHTTPServer.ListenAndServeCalls())
+//     len(mockedHTTPServer.ListenAndServeCalls())
 func (mock *HTTPServerMock) ListenAndServeCalls() []struct {
 } {
 	var calls []struct {
 	}
-	mock.lockListenAndServe.RLock()
+	lockHTTPServerMockListenAndServe.RLock()
 	calls = mock.calls.ListenAndServe
-	mock.lockListenAndServe.RUnlock()
+	lockHTTPServerMockListenAndServe.RUnlock()
 	return calls
 }
 
@@ -90,24 +92,23 @@ func (mock *HTTPServerMock) Shutdown(ctx context.Context) error {
 	}{
 		Ctx: ctx,
 	}
-	mock.lockShutdown.Lock()
+	lockHTTPServerMockShutdown.Lock()
 	mock.calls.Shutdown = append(mock.calls.Shutdown, callInfo)
-	mock.lockShutdown.Unlock()
+	lockHTTPServerMockShutdown.Unlock()
 	return mock.ShutdownFunc(ctx)
 }
 
 // ShutdownCalls gets all the calls that were made to Shutdown.
 // Check the length with:
-//
-//	len(mockedHTTPServer.ShutdownCalls())
+//     len(mockedHTTPServer.ShutdownCalls())
 func (mock *HTTPServerMock) ShutdownCalls() []struct {
 	Ctx context.Context
 } {
 	var calls []struct {
 		Ctx context.Context
 	}
-	mock.lockShutdown.RLock()
+	lockHTTPServerMockShutdown.RLock()
 	calls = mock.calls.Shutdown
-	mock.lockShutdown.RUnlock()
+	lockHTTPServerMockShutdown.RUnlock()
 	return calls
 }
