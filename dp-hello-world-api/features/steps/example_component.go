@@ -2,10 +2,12 @@ package steps
 
 import (
 	"context"
+	"net/http"
+	"time"
+
 	"github.com/ONSdigital/dp-hello-world-api/config"
 	"github.com/ONSdigital/dp-hello-world-api/service"
 	"github.com/ONSdigital/dp-hello-world-api/service/mock"
-	"net/http"
 
 	componenttest "github.com/ONSdigital/dp-component-test"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
@@ -23,9 +25,8 @@ type Component struct {
 }
 
 func NewComponent() (*Component, error) {
-
 	c := &Component{
-		HTTPServer:     &http.Server{},
+		HTTPServer:     &http.Server{ReadHeaderTimeout: 3 * time.Second},
 		errorChan:      make(chan error),
 		ServiceRunning: false,
 	}
@@ -73,7 +74,7 @@ func (c *Component) InitialiseService() (http.Handler, error) {
 	return c.HTTPServer.Handler, nil
 }
 
-func (c *Component) DoGetHealthcheckOk(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
+func (c *Component) DoGetHealthcheckOk(cfg *config.Config, buildTime, gitCommit, version string) (service.HealthChecker, error) {
 	return &mock.HealthCheckerMock{
 		AddCheckFunc: func(name string, checker healthcheck.Checker) error { return nil },
 		StartFunc:    func(ctx context.Context) {},
