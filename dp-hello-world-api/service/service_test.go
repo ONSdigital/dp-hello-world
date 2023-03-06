@@ -126,16 +126,16 @@ func TestRun(t *testing.T) {
 			})
 		})
 
-		/* ADD CODE or REMOVE: put this code in, if you have Checkers to register
+		/* ADD CODE OR REMOVE: put this code in, if you have Checkers to register
 		Convey("Given that Checkers cannot be registered", func() {
 			// setup (run before each `Convey` at this scope / indentation):
 			errAddheckFail := errors.New("Error(s) registering checkers for healthcheck")
-			hcMockAddFail := &serviceMock.HealthCheckerMock{
+			hcMockAddFail := &mock.HealthCheckerMock{
 				AddCheckFunc: func(name string, checker healthcheck.Checker) error { return errAddheckFail },
 				StartFunc:    func(ctx context.Context) {},
 			}
 
-			initMock := &serviceMock.InitialiserMock{
+			initMock := &mock.InitialiserMock{
 				DoGetHTTPServerFunc: funcDoGetHTTPServerNil,
 				DoGetHealthCheckFunc: func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
 					return hcMockAddFail, nil
