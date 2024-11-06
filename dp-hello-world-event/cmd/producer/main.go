@@ -10,7 +10,7 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/event"
 	"github.com/ONSdigital/dp-hello-world-event/schema"
-	kafka "github.com/ONSdigital/dp-kafka/v3"
+	kafka "github.com/ONSdigital/dp-kafka/v4"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
@@ -67,7 +67,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		kafkaProducer.Channels().Output <- bytes
+		kafkaProducer.Channels().Output <- kafka.BytesMessage{Value: bytes, Context: ctx}
 	}
 }
 

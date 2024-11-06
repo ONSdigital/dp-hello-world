@@ -6,7 +6,7 @@ import (
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-event/config"
-	kafka "github.com/ONSdigital/dp-kafka/v3"
+	kafka "github.com/ONSdigital/dp-kafka/v4"
 )
 
 //go:generate moq -out mock/initialiser.go -pkg mock . Initialiser

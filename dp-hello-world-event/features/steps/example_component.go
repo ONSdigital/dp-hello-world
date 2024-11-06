@@ -10,8 +10,8 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/service"
 	"github.com/ONSdigital/dp-hello-world-event/service/mock"
-	kafka "github.com/ONSdigital/dp-kafka/v3"
-	"github.com/ONSdigital/dp-kafka/v3/kafkatest"
+	kafka "github.com/ONSdigital/dp-kafka/v4"
+	"github.com/ONSdigital/dp-kafka/v4/kafkatest"
 	dphttp "github.com/ONSdigital/dp-net/v2/http"
 )
 

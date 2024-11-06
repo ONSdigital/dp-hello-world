@@ -6,10 +6,12 @@ import (
 
 	"github.com/ONSdigital/dp-hello-world-event/config"
 	"github.com/ONSdigital/dp-hello-world-event/event"
-	kafka "github.com/ONSdigital/dp-kafka/v3"
+	kafka "github.com/ONSdigital/dp-kafka/v4"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
 
 // Service contains all the configs, server and clients to run the event handler service
@@ -33,9 +35,17 @@ func Run(ctx context.Context, serviceList *ExternalServiceList, buildTime, gitCo
 	}
 	log.Info(ctx, "got service configuration", log.Data{"config": cfg})
 
-	// Get HTTP Server with collectionID checkHeader middleware
+	// Get HTTP Server with collectionID checkHeader middlew are
 	r := mux.NewRouter()
-	s := serviceList.GetHTTPServer(cfg.BindAddr, r)
+
+	var s HTTPServer
+	if cfg.OtelEnabled {
+		otelHandler := otelhttp.NewHandler(r, "/")
+		r.Use(otelmux.Middleware(cfg.OTServiceName))
+		s = serviceList.GetHTTPServer(cfg.BindAddr, otelHandler)
+	} else {
+		s = serviceList.GetHTTPServer(cfg.BindAddr, r)
+	}
 
 	// Get Kafka consumer
 	consumer, err := serviceList.GetKafkaConsumer(ctx, cfg)

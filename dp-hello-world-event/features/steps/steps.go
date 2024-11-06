@@ -10,7 +10,7 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/event"
 	"github.com/ONSdigital/dp-hello-world-event/schema"
 	"github.com/ONSdigital/dp-hello-world-event/service"
-	"github.com/ONSdigital/dp-kafka/v3/kafkatest"
+	"github.com/ONSdigital/dp-kafka/v4/kafkatest"
 	"github.com/cucumber/godog"
 	"github.com/rdumont/assistdog"
 	"github.com/stretchr/testify/assert"

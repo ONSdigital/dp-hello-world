@@ -6,7 +6,7 @@ import (
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-hello-world-event/config"
-	dpkafka "github.com/ONSdigital/dp-kafka/v3"
+	dpkafka "github.com/ONSdigital/dp-kafka/v4"
 	dphttp "github.com/ONSdigital/dp-net/v2/http"
 )
 
@@ -71,6 +71,9 @@ func (e *Init) DoGetKafkaConsumer(ctx context.Context, kafkaCfg *config.KafkaCon
 	cgConfig := &dpkafka.ConsumerGroupConfig{
 		KafkaVersion: &kafkaCfg.Version,
 		Offset:       &kafkaOffset,
+		Topic:        kafkaCfg.HelloCalledTopic,
+		GroupName:    kafkaCfg.HelloCalledGroup,
+		BrokerAddrs:  kafkaCfg.Brokers,
 	}
 	if kafkaCfg.SecProtocol == config.KafkaTLSProtocolFlag {
 		cgConfig.SecurityConfig = dpkafka.GetSecurityConfig(
