@@ -27,6 +27,10 @@ func TestConfig(t *testing.T) {
 					GracefulShutdownTimeout:    5 * time.Second,
 					HealthCheckInterval:        30 * time.Second,
 					HealthCheckCriticalTimeout: 90 * time.Second,
+					OTBatchTimeout:             5 * time.Second,
+					OTExporterOTLPEndpoint:     "localhost:4317",
+					OTServiceName:              "dp-hello-world-api",
+					OtelEnabled:                false,
 				})
 			})
 
