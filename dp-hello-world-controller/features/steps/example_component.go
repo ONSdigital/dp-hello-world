@@ -3,7 +3,6 @@ package steps
 import (
 	"context"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
@@ -13,15 +12,14 @@ import (
 	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"github.com/ONSdigital/dp-hello-world-controller/service"
 	"github.com/ONSdigital/dp-hello-world-controller/service/mocks"
-	dphttp "github.com/ONSdigital/dp-net/http"
-	render "github.com/ONSdigital/dp-renderer"
+	dphttp "github.com/ONSdigital/dp-net/v2/http"
+	render "github.com/ONSdigital/dp-renderer/v2"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
 type Component struct {
 	componenttest.ErrorFeature
 	Config         *config.Config
-	killChannel    chan os.Signal
 	HTTPServer     *http.Server
 	ServiceRunning bool
 	svc            *service.Service
@@ -33,7 +31,9 @@ type Component struct {
 // NewComponent creates and returns a new component instance.
 func NewComponent() (*Component, error) {
 	c := &Component{
-		HTTPServer:     &http.Server{},
+		HTTPServer: &http.Server{
+			ReadHeaderTimeout: 5 * time.Second,
+		},
 		svcErrors:      make(chan error, 1),
 		ServiceRunning: false,
 	}

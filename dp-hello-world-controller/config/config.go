@@ -14,6 +14,10 @@ type Config struct {
 	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`
 	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
+	OTBatchTimeout             time.Duration `encconfig:"OTEL_BATCH_TIMEOUT"`
+	OTExporterOTLPEndpoint     string        `envconfig:"OTEL_EXPORTER_OTLP_ENDPOINT"`
+	OTServiceName              string        `envconfig:"OTEL_SERVICE_NAME"`
+	OtelEnabled                bool          `envconfig:"OTEL_ENABLED"`
 	PatternLibraryAssetsPath   string        `envconfig:"PATTERN_LIBRARY_ASSETS_PATH"`
 	Debug                      bool          `envconfig:"DEBUG"`
 	HelloWorldEmphasise        bool          `envconfig:"HELLO_WORLD_EMPHASISE"`
@@ -34,6 +38,10 @@ func Get() (*Config, error) {
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
+		OTBatchTimeout:             5 * time.Second,
+		OTExporterOTLPEndpoint:     "localhost:4317",
+		OTServiceName:              "dp-hello-world-controller",
+		OtelEnabled:                false,
 		Debug:                      false,
 		HelloWorldEmphasise:        true,
 	}

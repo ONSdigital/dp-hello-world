@@ -2,11 +2,12 @@ package mapper
 
 import (
 	"context"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/ONSdigital/dp-hello-world-controller/config"
-	"github.com/ONSdigital/dp-renderer/model"
+	"github.com/ONSdigital/dp-renderer/v2/model"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -26,7 +27,7 @@ func TestUnitMapper(t *testing.T) {
 			HelloWorldEmphasise:        true,
 		}
 
-		req := httptest.NewRequest("GET", "http://localhost/hello-world", nil)
+		req := httptest.NewRequest("GET", "http://localhost/hello-world", http.NoBody)
 
 		basePageModel := model.NewPage("", "localhost")
 

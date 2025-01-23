@@ -9,6 +9,8 @@ import (
 	"github.com/ONSdigital/dp-hello-world-controller/routes"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
 
 var (
@@ -58,7 +60,14 @@ func (svc *Service) Init(ctx context.Context, cfg *config.Config, serviceList *E
 	// Initialise router
 	r := mux.NewRouter()
 	routes.Setup(ctx, r, cfg, clients, renderer)
-	svc.Server = serviceList.GetHTTPServer(cfg.BindAddr, r)
+
+	if cfg.OtelEnabled {
+		r.Use(otelmux.Middleware(cfg.OTServiceName))
+		otelHandler := otelhttp.NewHandler(r, "/")
+		svc.Server = serviceList.GetHTTPServer(cfg.BindAddr, otelHandler)
+	} else {
+		svc.Server = serviceList.GetHTTPServer(cfg.BindAddr, r)
+	}
 
 	return nil
 }

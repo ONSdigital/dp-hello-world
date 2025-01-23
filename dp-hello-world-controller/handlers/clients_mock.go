@@ -4,14 +4,9 @@
 package handlers
 
 import (
-	"github.com/ONSdigital/dp-renderer/model"
+	"github.com/ONSdigital/dp-renderer/v2/model"
 	"io"
 	"sync"
-)
-
-var (
-	lockClientErrorMockCode  sync.RWMutex
-	lockClientErrorMockError sync.RWMutex
 )
 
 // Ensure, that ClientErrorMock does implement ClientError.
@@ -20,22 +15,22 @@ var _ ClientError = &ClientErrorMock{}
 
 // ClientErrorMock is a mock implementation of ClientError.
 //
-//     func TestSomethingThatUsesClientError(t *testing.T) {
+//	func TestSomethingThatUsesClientError(t *testing.T) {
 //
-//         // make and configure a mocked ClientError
-//         mockedClientError := &ClientErrorMock{
-//             CodeFunc: func() int {
-// 	               panic("mock out the Code method")
-//             },
-//             ErrorFunc: func() string {
-// 	               panic("mock out the Error method")
-//             },
-//         }
+//		// make and configure a mocked ClientError
+//		mockedClientError := &ClientErrorMock{
+//			CodeFunc: func() int {
+//				panic("mock out the Code method")
+//			},
+//			ErrorFunc: func() string {
+//				panic("mock out the Error method")
+//			},
+//		}
 //
-//         // use mockedClientError in code that requires ClientError
-//         // and then make assertions.
+//		// use mockedClientError in code that requires ClientError
+//		// and then make assertions.
 //
-//     }
+//	}
 type ClientErrorMock struct {
 	// CodeFunc mocks the Code method.
 	CodeFunc func() int
@@ -52,6 +47,8 @@ type ClientErrorMock struct {
 		Error []struct {
 		}
 	}
+	lockCode  sync.RWMutex
+	lockError sync.RWMutex
 }
 
 // Code calls CodeFunc.
@@ -61,22 +58,23 @@ func (mock *ClientErrorMock) Code() int {
 	}
 	callInfo := struct {
 	}{}
-	lockClientErrorMockCode.Lock()
+	mock.lockCode.Lock()
 	mock.calls.Code = append(mock.calls.Code, callInfo)
-	lockClientErrorMockCode.Unlock()
+	mock.lockCode.Unlock()
 	return mock.CodeFunc()
 }
 
 // CodeCalls gets all the calls that were made to Code.
 // Check the length with:
-//     len(mockedClientError.CodeCalls())
+//
+//	len(mockedClientError.CodeCalls())
 func (mock *ClientErrorMock) CodeCalls() []struct {
 } {
 	var calls []struct {
 	}
-	lockClientErrorMockCode.RLock()
+	mock.lockCode.RLock()
 	calls = mock.calls.Code
-	lockClientErrorMockCode.RUnlock()
+	mock.lockCode.RUnlock()
 	return calls
 }
 
@@ -87,29 +85,25 @@ func (mock *ClientErrorMock) Error() string {
 	}
 	callInfo := struct {
 	}{}
-	lockClientErrorMockError.Lock()
+	mock.lockError.Lock()
 	mock.calls.Error = append(mock.calls.Error, callInfo)
-	lockClientErrorMockError.Unlock()
+	mock.lockError.Unlock()
 	return mock.ErrorFunc()
 }
 
 // ErrorCalls gets all the calls that were made to Error.
 // Check the length with:
-//     len(mockedClientError.ErrorCalls())
+//
+//	len(mockedClientError.ErrorCalls())
 func (mock *ClientErrorMock) ErrorCalls() []struct {
 } {
 	var calls []struct {
 	}
-	lockClientErrorMockError.RLock()
+	mock.lockError.RLock()
 	calls = mock.calls.Error
-	lockClientErrorMockError.RUnlock()
+	mock.lockError.RUnlock()
 	return calls
 }
-
-var (
-	lockRenderClientMockBuildPage        sync.RWMutex
-	lockRenderClientMockNewBasePageModel sync.RWMutex
-)
 
 // Ensure, that RenderClientMock does implement RenderClient.
 // If this is not the case, regenerate this file with moq.
@@ -117,22 +111,22 @@ var _ RenderClient = &RenderClientMock{}
 
 // RenderClientMock is a mock implementation of RenderClient.
 //
-//     func TestSomethingThatUsesRenderClient(t *testing.T) {
+//	func TestSomethingThatUsesRenderClient(t *testing.T) {
 //
-//         // make and configure a mocked RenderClient
-//         mockedRenderClient := &RenderClientMock{
-//             BuildPageFunc: func(w io.Writer, pageModel interface{}, templateName string)  {
-// 	               panic("mock out the BuildPage method")
-//             },
-//             NewBasePageModelFunc: func() model.Page {
-// 	               panic("mock out the NewBasePageModel method")
-//             },
-//         }
+//		// make and configure a mocked RenderClient
+//		mockedRenderClient := &RenderClientMock{
+//			BuildPageFunc: func(w io.Writer, pageModel interface{}, templateName string)  {
+//				panic("mock out the BuildPage method")
+//			},
+//			NewBasePageModelFunc: func() model.Page {
+//				panic("mock out the NewBasePageModel method")
+//			},
+//		}
 //
-//         // use mockedRenderClient in code that requires RenderClient
-//         // and then make assertions.
+//		// use mockedRenderClient in code that requires RenderClient
+//		// and then make assertions.
 //
-//     }
+//	}
 type RenderClientMock struct {
 	// BuildPageFunc mocks the BuildPage method.
 	BuildPageFunc func(w io.Writer, pageModel interface{}, templateName string)
@@ -155,6 +149,8 @@ type RenderClientMock struct {
 		NewBasePageModel []struct {
 		}
 	}
+	lockBuildPage        sync.RWMutex
+	lockNewBasePageModel sync.RWMutex
 }
 
 // BuildPage calls BuildPageFunc.
@@ -171,15 +167,16 @@ func (mock *RenderClientMock) BuildPage(w io.Writer, pageModel interface{}, temp
 		PageModel:    pageModel,
 		TemplateName: templateName,
 	}
-	lockRenderClientMockBuildPage.Lock()
+	mock.lockBuildPage.Lock()
 	mock.calls.BuildPage = append(mock.calls.BuildPage, callInfo)
-	lockRenderClientMockBuildPage.Unlock()
+	mock.lockBuildPage.Unlock()
 	mock.BuildPageFunc(w, pageModel, templateName)
 }
 
 // BuildPageCalls gets all the calls that were made to BuildPage.
 // Check the length with:
-//     len(mockedRenderClient.BuildPageCalls())
+//
+//	len(mockedRenderClient.BuildPageCalls())
 func (mock *RenderClientMock) BuildPageCalls() []struct {
 	W            io.Writer
 	PageModel    interface{}
@@ -190,9 +187,9 @@ func (mock *RenderClientMock) BuildPageCalls() []struct {
 		PageModel    interface{}
 		TemplateName string
 	}
-	lockRenderClientMockBuildPage.RLock()
+	mock.lockBuildPage.RLock()
 	calls = mock.calls.BuildPage
-	lockRenderClientMockBuildPage.RUnlock()
+	mock.lockBuildPage.RUnlock()
 	return calls
 }
 
@@ -203,21 +200,22 @@ func (mock *RenderClientMock) NewBasePageModel() model.Page {
 	}
 	callInfo := struct {
 	}{}
-	lockRenderClientMockNewBasePageModel.Lock()
+	mock.lockNewBasePageModel.Lock()
 	mock.calls.NewBasePageModel = append(mock.calls.NewBasePageModel, callInfo)
-	lockRenderClientMockNewBasePageModel.Unlock()
+	mock.lockNewBasePageModel.Unlock()
 	return mock.NewBasePageModelFunc()
 }
 
 // NewBasePageModelCalls gets all the calls that were made to NewBasePageModel.
 // Check the length with:
-//     len(mockedRenderClient.NewBasePageModelCalls())
+//
+//	len(mockedRenderClient.NewBasePageModelCalls())
 func (mock *RenderClientMock) NewBasePageModelCalls() []struct {
 } {
 	var calls []struct {
 	}
-	lockRenderClientMockNewBasePageModel.RLock()
+	mock.lockNewBasePageModel.RLock()
 	calls = mock.calls.NewBasePageModel
-	lockRenderClientMockNewBasePageModel.RUnlock()
+	mock.lockNewBasePageModel.RUnlock()
 	return calls
 }
