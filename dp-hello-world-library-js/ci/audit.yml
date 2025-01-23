@@ -1,0 +1,14 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: node
+    tag: 20.3.1
+
+inputs:
+  - name: dp-hello-world-library-js
+
+run:
+  path: dp-hello-world-library-js/ci/scripts/audit.sh

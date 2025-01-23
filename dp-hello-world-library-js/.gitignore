@@ -1,0 +1,15 @@
+/build
+
+# Mac
+.DS_Store
+
+#VSCode
+.vscode
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Node modules
+node_modules/
