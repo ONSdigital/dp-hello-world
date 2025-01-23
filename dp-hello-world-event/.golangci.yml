@@ -8,7 +8,7 @@ run:
   timeout: 5m
 linters-settings:
   govet:
-    check-shadowing: true
+    shadow: true
   golint:
     min-confidence: 0
   gocyclo:
@@ -44,13 +44,20 @@ linters-settings:
   funlen:
   # lines: 100
   # statements: 100
+  revive:
+    rules:
+      # disabled as parameter names are useful for context even when unused, especially in interface implementations
+      - name: unused-parameter
+        severity: warning
+        disabled: true
+    include:
+      - "**/*_test.go" # Specify test files to include
 
 linters:
   # please, do not use `enable-all`: it's deprecated and will be removed soon.
   # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
   disable-all: true
   enable:
-    - depguard
     - dogsled
     - errcheck
     - gochecknoinits
@@ -82,5 +89,10 @@ issues:
         - errcheck
         - dupl
         - gosec
+    # Allow dot import in test files for goconvey
+    - path: _test.go
+      text: "dot-imports"
+      linters:
+        - revive
+      source: "github.com/smartystreets/goconvey/convey"
   new: false
-
