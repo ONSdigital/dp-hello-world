@@ -9,10 +9,10 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: dp-hello-world-library
+  - name: dp-hello-world-library-go
 
 caches:
   - path: go/
 
 run:
-  path: dp-hello-world-library/ci/scripts/unit.sh
+  path: dp-hello-world-library-go/ci/scripts/unit.sh

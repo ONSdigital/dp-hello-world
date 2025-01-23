@@ -1,5 +1,5 @@
 #!/bin/bash -eux
 
-pushd dp-hello-world-library
+pushd dp-hello-world-library-go
   make audit
 popd

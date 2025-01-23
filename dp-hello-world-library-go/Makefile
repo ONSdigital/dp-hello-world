@@ -12,7 +12,7 @@ audit: ## Runs checks for security vulnerabilities on dependencies (including tr
 	go list -json -m all | nancy sleuth
 
 .PHONY: build
-build: ## Builds binary of library code as dp-hello-world-library
+build: ## Builds binary of library code as dp-hello-world-library-go
 	go build ./...
 
 .PHONY: convey
@@ -33,7 +33,6 @@ lint: ## Used in ci to run linters against Go code
 
 .PHONY: lint-local
 lint-local: ## Use locally to run linters against Go code
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
 	golangci-lint run ./...
 
 .PHONY: test

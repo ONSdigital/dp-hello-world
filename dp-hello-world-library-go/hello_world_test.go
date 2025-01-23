@@ -3,7 +3,7 @@ package helloworld_test
 import (
 	"testing"
 
-	hc "github.com/ONSdigital/dp-hello-world-library"
+	hc "github.com/ONSdigital/dp-hello-world-library-go"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

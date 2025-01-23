@@ -8,8 +8,8 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: dp-hello-world-library
-    path: dp-hello-world-library
+  - name: dp-hello-world-library-go
+    path: dp-hello-world-library-go
 
 run:
-  path: dp-hello-world-library/ci/scripts/audit.sh
+  path: dp-hello-world-library-go/ci/scripts/audit.sh
