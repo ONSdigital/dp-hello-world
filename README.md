@@ -17,7 +17,7 @@ These examples are as follows…
 To regenerate these projects, run:
 
 ```sh
-    make all
+    make all-generate
 ```
 
 Otherwise for individual projects:
@@ -50,4 +50,22 @@ Javascript library:
 
 ```sh
     make generate-library-js
+```
+
+## Testing
+
+You can run tests via:
+
+```sh
+    make all-tests
+```
+
+or the individual tests:
+
+```sh
+    make audit
+    make build
+    make lint
+    make test
+    make test-component # excludes libraries
 ```
