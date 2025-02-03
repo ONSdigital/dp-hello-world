@@ -17,7 +17,7 @@ These examples are as follows…
 To regenerate these projects, run:
 
 ```sh
-    make all-generate
+    make generate-all
 ```
 
 Otherwise for individual projects:

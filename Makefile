@@ -1,8 +1,8 @@
 APPS = api controller event library-go library-js
 APPS_COMPONENT = api controller event
 
-.PHONY: all-generate
-all-generate: generate-api generate-controller generate-event generate-library-go generate-library-js
+.PHONY: generate-all
+generate-all: generate-api generate-controller generate-event generate-library-go generate-library-js
 
 .PHONY: generate-api
 generate-api:
