@@ -1,6 +1,6 @@
 module github.com/ONSdigital/dp-hello-world-library-go
 
-go 1.23
+go 1.23.1
 
 require github.com/smartystreets/goconvey v1.8.1
 
