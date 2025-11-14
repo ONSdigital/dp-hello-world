@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	render "github.com/ONSdigital/dis-design-system-go"
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	componenttest "github.com/ONSdigital/dp-component-test"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
@@ -13,7 +14,6 @@ import (
 	"github.com/ONSdigital/dp-hello-world-controller/service"
 	"github.com/ONSdigital/dp-hello-world-controller/service/mocks"
 	dphttp "github.com/ONSdigital/dp-net/v2/http"
-	render "github.com/ONSdigital/dp-renderer/v2"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 

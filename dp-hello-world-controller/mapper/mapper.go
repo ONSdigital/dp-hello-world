@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/ONSdigital/dis-design-system-go/model"
 	"github.com/ONSdigital/dp-hello-world-controller/config"
-	"github.com/ONSdigital/dp-renderer/v2/model"
 )
 
 // TODO: remove hello world example mapper and models

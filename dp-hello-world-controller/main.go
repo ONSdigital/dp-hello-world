@@ -8,11 +8,11 @@ import (
 	"os/signal"
 	"syscall"
 
+	render "github.com/ONSdigital/dis-design-system-go"
 	"github.com/ONSdigital/dp-hello-world-controller/assets"
 	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"github.com/ONSdigital/dp-hello-world-controller/service"
 	dpotelgo "github.com/ONSdigital/dp-otel-go"
-	render "github.com/ONSdigital/dp-renderer/v2"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 

@@ -4,7 +4,7 @@
 package handlers
 
 import (
-	"github.com/ONSdigital/dp-renderer/v2/model"
+	"github.com/ONSdigital/dis-design-system-go/model"
 	"io"
 	"sync"
 )
