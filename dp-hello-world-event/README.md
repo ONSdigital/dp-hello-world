@@ -16,6 +16,18 @@ An example event can be created using the helper script, `make produce`.
   * [kafka](https://github.com/ONSdigital/dp/blob/main/guides/INSTALLING.md#prerequisites)
 * No further dependencies other than those defined in `go.mod`
 
+### Tools
+
+To run some of our tests you will need additional tooling:
+
+#### Audit
+
+We use `dis-vulncheck` to do auditing, which you will [need to install](https://github.com/ONSdigital/dis-vulncheck).
+
+#### Linting
+
+We use v2 of golangci-lint, which you will [need to install](https://golangci-lint.run/docs/welcome/install).
+
 ### Configuration
 
 | Environment variable         | Default                           | Description
@@ -55,7 +67,6 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 
-Copyright © 2025, Office for National Statistics (https://www.ons.gov.uk)
+Copyright © 2025, Office for National Statistics (<https://www.ons.gov.uk>)
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.
-
