@@ -7,16 +7,16 @@ require (
 	github.com/ONSdigital/dp-component-test v0.28.0
 	github.com/ONSdigital/dp-healthcheck v1.6.4
 	github.com/ONSdigital/dp-kafka/v4 v4.3.0
-	github.com/ONSdigital/dp-net/v2 v2.22.0
-	github.com/ONSdigital/log.go/v2 v2.5.0
+	github.com/ONSdigital/dp-net/v3 v3.9.0
+	github.com/ONSdigital/log.go/v2 v2.5.1
 	github.com/cucumber/godog v0.15.1
 	github.com/gorilla/mux v1.8.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/stretchr/testify v1.11.1
-	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.63.0
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.63.0
+	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.64.0
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.64.0
 )
 
 require (
@@ -24,7 +24,6 @@ require (
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.269.0 // indirect
 	github.com/ONSdigital/dp-authorisation/v2 v2.32.2 // indirect
 	github.com/ONSdigital/dp-mongodb-in-memory v1.8.1 // indirect
-	github.com/ONSdigital/dp-net/v3 v3.5.0 // indirect
 	github.com/ONSdigital/dp-permissions-api v1.0.0 // indirect
 	github.com/Shopify/sarama v1.38.1 // indirect
 	github.com/alicebob/miniredis/v2 v2.35.0 // indirect
@@ -86,13 +85,13 @@ require (
 	go.mongodb.org/mongo-driver v1.17.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/instrumentation/github.com/Shopify/sarama/otelsarama v0.43.0 // indirect
-	go.opentelemetry.io/otel v1.38.0 // indirect
-	go.opentelemetry.io/otel/metric v1.38.0 // indirect
-	go.opentelemetry.io/otel/trace v1.38.0 // indirect
+	go.opentelemetry.io/otel v1.39.0 // indirect
+	go.opentelemetry.io/otel/metric v1.39.0 // indirect
+	go.opentelemetry.io/otel/trace v1.39.0 // indirect
 	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/net v0.46.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

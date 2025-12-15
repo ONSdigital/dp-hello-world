@@ -3,19 +3,19 @@ module github.com/ONSdigital/dp-hello-world-controller
 go 1.24.0
 
 require (
-	github.com/ONSdigital/dis-design-system-go v1.2.1
+	github.com/ONSdigital/dis-design-system-go v1.4.0
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.270.0
 	github.com/ONSdigital/dp-component-test v0.28.0
 	github.com/ONSdigital/dp-healthcheck v1.6.4
-	github.com/ONSdigital/dp-net/v2 v2.22.0
+	github.com/ONSdigital/dp-net/v3 v3.9.0
 	github.com/ONSdigital/dp-otel-go v0.0.8
-	github.com/ONSdigital/log.go/v2 v2.5.0
+	github.com/ONSdigital/log.go/v2 v2.5.1
 	github.com/cucumber/godog v0.15.1
 	github.com/gorilla/mux v1.8.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/smartystreets/goconvey v1.8.1
-	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.63.0
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.63.0
+	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.64.0
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.64.0
 )
 
 require (
@@ -23,7 +23,6 @@ require (
 	github.com/ONSdigital/dis-redis v0.3.0 // indirect
 	github.com/ONSdigital/dp-authorisation/v2 v2.32.2 // indirect
 	github.com/ONSdigital/dp-mongodb-in-memory v1.8.1 // indirect
-	github.com/ONSdigital/dp-net/v3 v3.5.0 // indirect
 	github.com/ONSdigital/dp-permissions-api v1.0.0 // indirect
 	github.com/alicebob/miniredis/v2 v2.35.0 // indirect
 	github.com/c2h5oh/datasize v0.0.0-20231215233829-aa82cc1e6500 // indirect
@@ -79,24 +78,24 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	github.com/yuin/gopher-lua v1.1.1 // indirect
 	go.mongodb.org/mongo-driver v1.17.4 // indirect
-	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
+	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/propagators/autoprop v0.52.0 // indirect
 	go.opentelemetry.io/contrib/propagators/aws v1.27.0 // indirect
 	go.opentelemetry.io/contrib/propagators/b3 v1.27.0 // indirect
 	go.opentelemetry.io/contrib/propagators/jaeger v1.27.0 // indirect
 	go.opentelemetry.io/contrib/propagators/ot v1.27.0 // indirect
-	go.opentelemetry.io/otel v1.38.0 // indirect
+	go.opentelemetry.io/otel v1.39.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.27.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.27.0 // indirect
-	go.opentelemetry.io/otel/metric v1.38.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.38.0 // indirect
-	go.opentelemetry.io/otel/trace v1.38.0 // indirect
+	go.opentelemetry.io/otel/metric v1.39.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.39.0 // indirect
+	go.opentelemetry.io/otel/trace v1.39.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.3.1 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.40.0 // indirect
+	golang.org/x/crypto v0.39.0 // indirect
 	golang.org/x/net v0.41.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240624140628-dc46fd24d27d // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240624140628-dc46fd24d27d // indirect

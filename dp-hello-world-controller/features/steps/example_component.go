@@ -13,7 +13,7 @@ import (
 	"github.com/ONSdigital/dp-hello-world-controller/config"
 	"github.com/ONSdigital/dp-hello-world-controller/service"
 	"github.com/ONSdigital/dp-hello-world-controller/service/mocks"
-	dphttp "github.com/ONSdigital/dp-net/v2/http"
+	dphttp "github.com/ONSdigital/dp-net/v3/http"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 

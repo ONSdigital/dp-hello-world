@@ -12,7 +12,7 @@ import (
 	"github.com/ONSdigital/dp-hello-world-event/service/mock"
 	kafka "github.com/ONSdigital/dp-kafka/v4"
 	"github.com/ONSdigital/dp-kafka/v4/kafkatest"
-	dphttp "github.com/ONSdigital/dp-net/v2/http"
+	dphttp "github.com/ONSdigital/dp-net/v3/http"
 )
 
 type Component struct {
